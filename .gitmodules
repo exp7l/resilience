@@ -4,3 +4,6 @@
 [submodule "lib/ds-deed"]
 	path = lib/ds-deed
 	url = https://github.com/brianmcmichael/ds-deed
+[submodule "lib/erc721"]
+	path = lib/erc721
+	url = https://github.com/brianmcmichael/erc721
