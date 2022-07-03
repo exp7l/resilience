@@ -6,7 +6,7 @@ interface IFund {
   function createFund(uint requestedFundId, address owner) external;
   function accountFundDebt(uint fundId, uint accountId, address collateralType) external returns (int);
   function fundDebt(uint fundId) external returns (int);
-  function totalDebtShares(uint fundId) external;
+  function totalDebtShares(uint fundId) external returns (uint);
   function debtPerShare(uint fundId) external returns (int);
   function collateralizationRatio(uint fundId, uint accountId, address collateralType) external returns (uint);
   function delegateCollateral(uint fundId, uint accountId, address collateralType, uint amount, uint exposure) external;
