@@ -4,3 +4,6 @@
 [submodule "lib/ds-deed"]
 	path = lib/ds-deed
 	url = https://github.com/brianmcmichael/ds-deed
+[submodule "lib/ds-math"]
+	path = lib/ds-math
+	url = https://github.com/dapphub/ds-math
