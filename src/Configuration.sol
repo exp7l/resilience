@@ -5,9 +5,9 @@ import "./Auth.sol";
 
 contract Configuration is Auth {
   
-  mapping (address => bool) public approvedCollateralTypes;
+  mapping (address => bool) public approvedCollaterals;
   
-  function setCollateralTypeApproval(address collateralType, bool approval) external auth stoppable {
-	approvedCollateralTypes[collateralType] = approval;
+  function setCollateralApproval(address _collateral, bool _approval) external auth stoppable {
+	approvedCollaterals[_collateral] = _approval;
   }
 }

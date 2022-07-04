@@ -10,20 +10,25 @@ import "./IERC20.sol";
 import "./Configuration.sol";
 
 
-contract Account is IAccount, DSDeed("Resilience Account", "rsACCT") {
+contract Account is IAccount, DSDeed("Resilient Account", "rsACCT") {
 
-  Configuration configuration;
+  mapping(uint => mapping(address => uint)) public balance;
+		  
+  Configuration config;
   
-  constructor(address c) public {
-	configuration = Configuration(c);
+  constructor(address _config) {
+	config = Configuration(_config);
   }
   
-  function stake(uint accountId, address collateralType, uint amount) external {
-	require(configuration.approvedCollateralTypes(collateralType) == true);
-    IERC20(collateralType).transferFrom(msg.sender, address(this), amount);
+  function stake(uint _accountId, address _collateral, uint _amount) external {
+	require(config.approvedCollaterals(_collateral) == true);
+    IERC20(_collateral).transferFrom(msg.sender, address(this), _amount);
+	balance[_accountId][_collateral] += _amount;
   }
   
-  function unstake(uint accountId, address collateralType, uint amount) external {
-	IERC20(collateralType).transferFrom(address(this), msg.sender, amount);
+  function unstake(uint _accountId, address _collateral, uint _amount) external {
+	balance[_accountId][_collateral] -= _amount;
+	IERC20(_collateral).transferFrom(address(this), msg.sender, _amount);
+	// TODO: Only allow unstake to take place if collateral ratio is inline.
   } 
 }

@@ -1,49 +1,60 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import "./IAccount.sol";
+
+import "./IFund.sol";
+
+import "./IERC20.sol";
+
+import "./Configuration.sol";
+
 contract Fund {
-  
-  mapping (uint => address)                                     public fundOwner;
-  mapping (uint => address)                                     public fundNominatedOwner;
-  mapping (uint => mapping(uint => mapping(address => int)))    public accountFundDebt;
-  mapping (uint => int)                                         public fundDebt;
-  mapping (uint => uint)                                        public totalDebtShares;
-  
-  function createFund(uint requestedFundId, address owner) external {
-	require(fundOwner[requestedFundId] == address(0), "fund-id-taken");
-	require(requestedFundId != 1, "fund-id-reserved");
-	fundOwner[requestedFundId] = owner;
+  mapping (uint => Ownership)                                              public  ownerships;
+  mapping (uint => mapping(uint => mapping(address => Collateral)))        public  collaterals;
+
+  struct Collateral {
+	uint    accountId;
+	address collateralType;
+	uint    collateralAmount;
+	uint    leverage;
+	int     usdBalance;	
   }
 
-  function debtPerShare(uint fundId) external returns (int) {
+  struct Ownership {
+	uint    fundId;
+    address owner;
+    address nominated;
+  }
+  
+  function createFund(uint requestedFundId, address owner) external {}
+  function accountFundDebt(uint fundId, uint accountId, address collateralType) external {}
+  function fundDebt(uint fundId) external {}
+  function totalDebtShares(uint fundId) external {}
+  function debtPerShare(uint fundId) external {}
+  function collateralizationRatio(uint fundId, uint accountId, address collateralType) external {}
 
+  function delegateCollateral(uint fundId, uint accountId, address collateralType, uint amount, uint exposure)
+	external
+  {
+	
   }
 
-  function collateralizationRatio(uint fundId, uint accountId, address collateralType) external returns (uint) {}
+  function mint(uint fundId, uint accountId, address collateralType, uint amount)
+	external
+  {
+	// Mint through ERC20 resUSD
+  }
 
-  function delegateCollateral(uint fundId, uint accountId, address collateralType, uint amount, uint exposure) external {}
-
+  function burn(uint fundId, uint accountId, address collateralType, uint amount)
+	external
+  {
+	
+  }
+  
   function rebalanceMarkets(uint fundId) external {}
-
-  function setFundPosition(uint fundId, uint[] calldata markets, uint[] calldata weights) external {}
-
-  function nominateFundOwner(uint fundId, address owner) external {
-    require(fundOwner[fundId] == msg.sender, "fund-nominate-msg-sender-not-fund-owner");
-	fundNominatedOwner[fundId] = owner;
-  }
-
-  function acceptFundOwnership(uint fundId) external {
-	require(fundNominatedOwner[fundId] == msg.sender, "fund-msg-sender-not-nominated");
-	fundOwner[fundId]          = msg.sender;
-	fundNominatedOwner[fundId] = address(0);
-  }
-
-  function renounceFundOwnership(uint fundId) external {
-	require(fundOwner[fundId] == msg.sender, "fund-renounce-msg-sender-not-fund-owner");
-	fundOwner[fundId]          = address(1);
-  }
-
-  function liquidatePosition(uint fundId, uint accountId, address collateralType) external {}
-
-  function liquidateFund(uint fundId, uint amount) external {}
+  function setFundPosition(uint fundId, uint[] markets, uint[] weights) external {}
+  function nominateFundOwner(uint fundId, address owner) external {}
+  function acceptFundOwnership(uint fundId) external {}
+  function renounceFundOwnership(uint fundId) external {}
 }
