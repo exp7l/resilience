@@ -11,12 +11,12 @@ contract Auth {
   event Deny(address indexed guy);
   
   modifier auth {
-	require(wards[msg.sender] == 1, "ds-deed-not-authorized");
+	require(wards[msg.sender] == 1, "res-deed-not-authorized");
 	_;
   }
 
   modifier stoppable {
-	require(!stopped, "ds-deed-is-stopped");
+	require(!stopped, "res-deed-is-stopped");
 	_;
   }
 
