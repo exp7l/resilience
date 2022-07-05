@@ -4,4 +4,3 @@ exec('forge build', (err, stdout, stderr) => {
   console.log(`stdout: ${stdout}`);
   console.log(`stderr: ${stderr}`);
 })
-
