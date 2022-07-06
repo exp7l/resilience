@@ -68,6 +68,14 @@ contract MarketManager {
         market.setFundLiquidity(fundId, amount);
     }
 
+    function liquidity(uint256 marketId) external returns (uint256) {
+        address marketAddr = idToMarkets[marketId];
+        require(marketAddr != address(0), "market does not exist");
+
+        Market market = Market(marketAddr);
+        return market.liquidity();
+    }
+
     function fundBalance(uint256 marketId, uint256 fundId)
         external
         view
