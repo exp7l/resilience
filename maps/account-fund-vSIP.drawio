@@ -1,0 +1,128 @@
+<mxfile host="app.diagrams.net" modified="2022-07-06T00:22:20.800Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="b20WbXx3jrHAJJM3yBPU" version="20.0.4" type="github">
+  <diagram id="sK099LwJfF7bbQSy66-H" name="Page-1">
+    <mxGraphModel dx="1681" dy="1761" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-1" value="Account contract&lt;br&gt;&lt;br&gt;idea: an account is a transferable margin account and only release collateral when it meets collateral ratio requirement&lt;br&gt;&lt;br&gt;key: accountId" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="180" y="100" width="120" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-2" value="Fund contract&lt;br&gt;&lt;br&gt;idea: a fund is a manged portfolio of margin accounts - equity is from accounts and liabilities is owed to synth holders&lt;br&gt;&lt;br&gt;&amp;nbsp;key: fundId, collateralType&lt;br&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="570" y="100" width="120" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-4" value="Contract view" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="50" y="10" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-5" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="50" y="400" as="sourcePoint" />
+            <mxPoint x="820" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" parent="1" source="MqfDhxH19Fkw5XbTqLKF-6" target="MqfDhxH19Fkw5XbTqLKF-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="MqfDhxH19Fkw5XbTqLKF-6" target="MqfDhxH19Fkw5XbTqLKF-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.546;entryY=0.017;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="MqfDhxH19Fkw5XbTqLKF-6" target="MqfDhxH19Fkw5XbTqLKF-9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="315" y="545" />
+              <mxPoint x="315" y="660" />
+              <mxPoint x="641" y="660" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-6" value="Account1" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="155" y="500" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-7" value="Fund1" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="575" y="440" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-8" value="Fund2" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="575" y="570" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-9" value="Fund3" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="575" y="710" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=-0.006;entryY=0.698;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="MqfDhxH19Fkw5XbTqLKF-13" target="MqfDhxH19Fkw5XbTqLKF-7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="295" y="725" />
+              <mxPoint x="295" y="695" />
+              <mxPoint x="475" y="695" />
+              <mxPoint x="475" y="482" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="MqfDhxH19Fkw5XbTqLKF-13" target="MqfDhxH19Fkw5XbTqLKF-9" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-13" value="Account2" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="155" y="710" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-16" value="delegate" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="395" y="740" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-17" value="Domain view" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="358" y="400" width="135" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-20" value="Staker" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="20" y="580" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="MqfDhxH19Fkw5XbTqLKF-21" target="MqfDhxH19Fkw5XbTqLKF-9" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-21" value="Liquidator" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="620" y="890" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-23" value="liquidatePosition/Fund" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="670" y="830" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-24" value="" style="endArrow=none;html=1;rounded=0;startArrow=none;" parent="1" source="MqfDhxH19Fkw5XbTqLKF-18" target="MqfDhxH19Fkw5XbTqLKF-2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="230" as="sourcePoint" />
+            <mxPoint x="350" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-18" value="auth call:&lt;br&gt;- deletegate&lt;br&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="368" y="215" width="115" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-25" value="" style="endArrow=none;html=1;rounded=0;" parent="1" target="MqfDhxH19Fkw5XbTqLKF-18" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="230" as="sourcePoint" />
+            <mxPoint x="570" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-26" value="Market Manager contract&lt;br&gt;&lt;br&gt;idea: tracking (fund, marketId) debt balance&lt;br&gt;&lt;br&gt;key: fundId, marketId" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="570" y="-195" width="120" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-27" value="" style="endArrow=none;html=1;rounded=0;" parent="1" source="MqfDhxH19Fkw5XbTqLKF-2" target="MqfDhxH19Fkw5XbTqLKF-26" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="650" y="60" as="sourcePoint" />
+            <mxPoint x="630" y="-20" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-28" value="resUSD contract&lt;br&gt;&lt;br&gt;idea: ERC20 token, unit of account that debts and collaterals are denominated in" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="180" y="-195" width="120" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-29" value="auth call:&lt;br&gt;- setLiquidity&lt;br&gt;&lt;br&gt;public calls:&lt;br&gt;- fundBalance(fundId, marketId) to get total fundBalance across markets" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="635" y="10" width="175" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="X0SEwoF5Xa97k3sL53Wh-1" target="MqfDhxH19Fkw5XbTqLKF-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-1" value="Liquidator Bot contract&lt;br&gt;&lt;br&gt;idea: code not owned by protocol" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="930" y="100" width="120" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-3" value="public:&lt;br&gt;- liqudatePosition&lt;br&gt;- liqudateFund" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="760" y="185" width="112" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-4" value="&lt;h1&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Fund3 (id: 3, type: resBTC)&#39;s balance sheet&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;br&gt;&lt;/h1&gt;&lt;div&gt;{&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;account1: {&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; debtShares: 60,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; delegatedLiquidity (resUSD): 105&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; (derived) collateralRatio:&amp;nbsp; 105 / (25 * 4 resUSD per debtShare) // collateral ratio: 105%&lt;/div&gt;&lt;div&gt;&amp;nbsp; },&lt;/div&gt;&lt;div&gt;&amp;nbsp; account2: {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; debtShares: 40,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; delegatedLiquidity (resUSD): 200&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; (derived) collateralRatio:&amp;nbsp; 200 / (25 * 4 resUSD per debtShare)&lt;/div&gt;&lt;div&gt;&amp;nbsp; }&amp;nbsp;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Equity:&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;105 + 200 resUSD&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;---------------------------(collateral ratio: 305 / 200 = 152.5%)-----------------------------&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Liabilities:&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;50 shares valued at 4 resUSD per share @ block 420&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="800" y="665" width="620" height="425" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
