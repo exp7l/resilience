@@ -43,7 +43,7 @@ contract MarketManager {
         require(marketAddr != address(0), "market does not exist");
         // TODO: fundId check
 
-        Market market = Market(idToMarkets[marketId]);
+        Market market = Market(marketAddr);
         market.setFundSupplyTarget(fundId, amount);
     }
 
@@ -56,7 +56,7 @@ contract MarketManager {
         require(marketAddr != address(0), "market does not exist");
         // TODO: fundId check
 
-        Market market = Market(idToMarkets[marketId]);
+        Market market = Market(marketAddr);
         market.setFundLiquidity(fundId, amount);
     }
 
