@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import "./IERC20.sol";
 import "./IMarket.sol";
 
-// TODO: access control, erc20 for synth
+// TODO: access control, erc20 interface for synth
 contract Market is IMarket {
+    /// @dev synth erc20 contract address
+    IERC20 public synth;
     uint256 public supplyTarget;
     /// @dev should also be equal to balance
     uint256 public liquidity;
@@ -12,6 +15,10 @@ contract Market is IMarket {
 
     mapping(uint256 => int256) public fundBalances;
     mapping(uint256 => uint256) public fundSupplyTargets;
+
+    constructor(address _synthAddr) public {
+        synth = IERC20(_synthAddr);
+    }
 
     function setFundSupplyTarget(uint256 fundId, uint256 amount) external {
         // TODO: fundId check
