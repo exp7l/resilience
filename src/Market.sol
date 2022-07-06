@@ -18,6 +18,8 @@ contract Market is IMarket {
     uint256 public supplyTarget;
     uint256 public totalFundBalances;
 
+    uint256 public fee;
+
     mapping(uint256 => int256) public fundBalances;
     mapping(uint256 => uint256) public fundSupplyTargets;
 
@@ -26,7 +28,8 @@ contract Market is IMarket {
         address _synthAddr,
         uint256 _synthPrice,
         address _susdAddr,
-        address _marketManagerAddr
+        address _marketManagerAddr,
+        uint256 _fee
     ) public {
         synth = ISynth(_synthAddr);
         synthPrice = _synthPrice;
@@ -34,6 +37,8 @@ contract Market is IMarket {
         susd = IERC20(_susdAddr);
 
         marketManager = IMarketManager(_marketManagerAddr);
+
+        fee = _fee;
     }
 
     function setFundSupplyTarget(uint256 fundId, uint256 amount) external {
@@ -63,7 +68,7 @@ contract Market is IMarket {
         susdBalances[msg.sender] += amount;
     }
 
-    // TODO decimals
+    // TODO decimals, send fees somewhere
     function buy(uint256 amount) external {
         bool success = susd.transferFrom(
             msg.sender,
@@ -72,18 +77,24 @@ contract Market is IMarket {
         );
         require(success, "ERC20: failed to transfer");
 
-        uint256 synthAmount = amount / synthPrice;
+        uint256 fees = fee * amount;
+        uint256 amountLeftToPurchase = amount - fees;
+
+        uint256 synthAmount = amountLeftToPurchase / synthPrice;
 
         synth.mint(msg.sender, synthAmount);
     }
 
-    // TODO decimals
+    // TODO decimals, send fees somewhere
     function sell(uint256 amount) external {
         bool success = synth.burn(msg.sender, amount);
         require(success, "ERC20: failed to transfer");
 
         uint256 susdAmount = amount * synthPrice;
 
-        susd.transferFrom(address(marketManager), msg.sender, susdAmount);
+        uint256 fees = fee * susdAmount;
+        uint256 susdAmountLeft = susdAmount - fees;
+
+        susd.transferFrom(address(marketManager), msg.sender, susdAmountLeft);
     }
 }
