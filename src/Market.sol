@@ -4,20 +4,22 @@ pragma solidity ^0.8.13;
 import "./IERC20.sol";
 import "./IMarket.sol";
 
-// TODO: access control, erc20 interface for synth
+// TODO: access control, erc20 interface for synth, price oracle
 contract Market is IMarket {
     /// @dev synth erc20 contract address
     IERC20 public synth;
+    uint256 synthPrice;
+
     uint256 public supplyTarget;
-    /// @dev should also be equal to balance
-    uint256 public liquidity;
     uint256 public totalFundBalances;
 
     mapping(uint256 => int256) public fundBalances;
     mapping(uint256 => uint256) public fundSupplyTargets;
 
-    constructor(address _synthAddr) public {
+    // TODO price oracle
+    constructor(address _synthAddr, uint256 _synthPrice) public {
         synth = IERC20(_synthAddr);
+        synthPrice = _synthPrice;
     }
 
     function setFundSupplyTarget(uint256 fundId, uint256 amount) external {
@@ -37,12 +39,10 @@ contract Market is IMarket {
         fundBalances[fundId] = amountSigned;
     }
 
-    function setLiquidity(uint256 newLiquidity) external {
-        liquidity = newLiquidity;
-    }
-
-    function balance() external view returns (uint256) {
-        return liquidity;
+    // TODO decimal places
+    function balance() external view returns (int256) {
+        /// TODO price oracle
+        return -1 * synth.totalSupply() * synthPrice;
     }
 
     function deposit(uint256 amount) external {
