@@ -6,7 +6,7 @@ import "./IMarket.sol";
 import "./IMarketManager.sol";
 import "./ISynth.sol";
 
-// TODO: access control, erc20 interface for synth, price oracle
+// TODO: access control, erc20 interface for synth, price oracle, optimisation
 contract Market is IMarket {
     /// @dev synth erc20 contract address
     ISynth public synth;
@@ -15,11 +15,11 @@ contract Market is IMarket {
 
     IMarketManager public marketManager;
 
-    uint256 public supplyTarget;
     uint256 public totalFundBalances;
 
     uint256 public fee;
 
+    address[] public funds;
     mapping(uint256 => int256) public fundBalances;
     mapping(uint256 => uint256) public fundSupplyTargets;
 
@@ -29,7 +29,8 @@ contract Market is IMarket {
         uint256 _synthPrice,
         address _susdAddr,
         address _marketManagerAddr,
-        uint256 _fee
+        uint256 _fee,
+        address[] calldata _funds
     ) public {
         synth = ISynth(_synthAddr);
         synthPrice = _synthPrice;
@@ -39,6 +40,7 @@ contract Market is IMarket {
         marketManager = IMarketManager(_marketManagerAddr);
 
         fee = _fee;
+        funds = _funds;
     }
 
     function setFundSupplyTarget(uint256 fundId, uint256 amount) external {
@@ -47,8 +49,12 @@ contract Market is IMarket {
         fundSupplyTargets[fundId] = amount;
     }
 
-    function setSupplyTarget(uint256 newSupplyTarget) external {
-        supplyTarget = newSupplyTarget;
+    function supplyTarget() external view returns (uint256 supplytarget) {
+        for (uint256 i = 0; i < funds.length; i++) {
+            supplytarget += fundSupplyTargets[funds[i]];
+        }
+
+        return;
     }
 
     function setFundLiquidity(uint256 fundId, uint256 amount) external {

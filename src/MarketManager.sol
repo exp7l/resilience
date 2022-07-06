@@ -47,6 +47,14 @@ contract MarketManager {
         market.setFundSupplyTarget(fundId, amount);
     }
 
+    function supplyTarget(uint256 marketId) external returns (uint256) {
+        address marketAddr = idToMarkets[marketId];
+        require(marketAddr != address(0), "market does not exist");
+
+        Market market = Market(marketAddr);
+        return market.supplyTarget();
+    }
+
     function setLiquidity(
         uint256 marketId,
         uint256 fundId,
