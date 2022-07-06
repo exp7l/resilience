@@ -25,7 +25,7 @@ contract MarketManager {
 
     function registerMarket(address marketAddr) external returns (uint256) {
         // TODO: check Market implements balance() function
-        require(marketsToId[marketAddr] != 0, "market contract already exists");
+        require(marketsToId[marketAddr] == 0, "market contract already exists");
 
         idToMarkets[counter] = marketAddr;
         marketsToId[marketAddr] = counter;
