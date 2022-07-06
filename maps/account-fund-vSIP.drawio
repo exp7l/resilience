@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-07-06T19:43:18.356Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="phHAOH1usEEy1-S2dlmQ" version="20.0.4" type="github">
+<mxfile host="app.diagrams.net" modified="2022-07-06T22:11:09.036Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="CmyQ9t_8EXXpazdhJe8t" version="20.0.4" type="github">
   <diagram id="sK099LwJfF7bbQSy66-H" name="Page-1">
-    <mxGraphModel dx="1681" dy="1761" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2029" dy="1897" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -10,13 +10,13 @@
         <mxCell id="MqfDhxH19Fkw5XbTqLKF-2" value="Fund contract&lt;br&gt;&lt;br&gt;idea: a fund is a manged portfolio of margin accounts - equity is from accounts and liabilities is owed to synth holders&lt;br&gt;&lt;br&gt;&amp;nbsp;key: fundId, collateralType&lt;br&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="570" y="100" width="120" height="260" as="geometry" />
         </mxCell>
-        <mxCell id="MqfDhxH19Fkw5XbTqLKF-4" value="Contract view" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-4" value="Contract view" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
           <mxGeometry x="50" y="10" width="80" height="30" as="geometry" />
         </mxCell>
         <mxCell id="MqfDhxH19Fkw5XbTqLKF-5" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="50" y="400" as="sourcePoint" />
-            <mxPoint x="820" y="400" as="targetPoint" />
+            <mxPoint x="1387.9310344827586" y="400" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="MqfDhxH19Fkw5XbTqLKF-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" parent="1" source="MqfDhxH19Fkw5XbTqLKF-6" target="MqfDhxH19Fkw5XbTqLKF-7" edge="1">
@@ -49,9 +49,7 @@
         <mxCell id="MqfDhxH19Fkw5XbTqLKF-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=-0.006;entryY=0.698;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="MqfDhxH19Fkw5XbTqLKF-13" target="MqfDhxH19Fkw5XbTqLKF-7" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="295" y="725" />
-              <mxPoint x="295" y="695" />
-              <mxPoint x="475" y="695" />
+              <mxPoint x="475" y="725" />
               <mxPoint x="475" y="482" />
             </Array>
           </mxGeometry>
@@ -63,10 +61,10 @@
           <mxGeometry x="155" y="710" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="MqfDhxH19Fkw5XbTqLKF-16" value="delegate" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="395" y="740" width="60" height="30" as="geometry" />
+          <mxGeometry x="298" y="740" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="MqfDhxH19Fkw5XbTqLKF-17" value="Domain view" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="358" y="400" width="135" height="30" as="geometry" />
+        <mxCell id="MqfDhxH19Fkw5XbTqLKF-17" value="Accouting view" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="400" y="1300" width="135" height="30" as="geometry" />
         </mxCell>
         <mxCell id="MqfDhxH19Fkw5XbTqLKF-20" value="Staker" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
           <mxGeometry x="20" y="580" width="30" height="60" as="geometry" />
@@ -119,8 +117,96 @@
         <mxCell id="X0SEwoF5Xa97k3sL53Wh-3" value="public:&lt;br&gt;- liqudatePosition&lt;br&gt;- liqudateFund" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="760" y="185" width="112" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="X0SEwoF5Xa97k3sL53Wh-4" value="&lt;h1&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Fund3 (id: 3, type: resBTC)&#39;s balance sheet&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;/h1&gt;&lt;div&gt;Asset:&amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;105 + 200 resUSD&lt;/span&gt;&lt;/div&gt;&lt;div&gt;Equity:&lt;/div&gt;&lt;div&gt;Liabilities:&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;50 shares valued at 4 resUSD per share @ block 420&lt;/span&gt;&lt;/div&gt;&lt;div&gt;Collateral ratio: 305 / 200 = 152.5%&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Action: Mint 1 BTC for 10 resUSD&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;Asset:&amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;105 + 200 + 10 resUSD&lt;/span&gt;&lt;/div&gt;&lt;div&gt;Equity:&lt;/div&gt;&lt;div&gt;Liabilities:&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;50 shares @ 4 resUSD, 1 BTC payable in resUSD&lt;/span&gt;&lt;/div&gt;&lt;div&gt;Collateral ratio: 305 / 200 = 152.5%&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="800" y="665" width="620" height="425" as="geometry" />
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-4" value="&lt;h1&gt;&lt;span style=&quot;background-color: initial; font-size: 12px;&quot;&gt;Fund3&#39;s balance sheet&lt;/span&gt;&lt;/h1&gt;&lt;h1&gt;&lt;span style=&quot;background-color: initial; font-size: 12px; font-weight: normal;&quot;&gt;Asset:&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial; font-size: 12px; font-weight: normal;&quot;&gt;105 + 200 resUSD&lt;/span&gt;&lt;br&gt;&lt;/h1&gt;&lt;div&gt;Equity:&lt;/div&gt;&lt;div&gt;Liabilities:&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;50 shares valued at 4 resUSD per share @ block 420&lt;/span&gt;&lt;/div&gt;&lt;div&gt;Collateral ratio: 305 / 200 = 152.5%&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Action: Mint 1 BTC for 10 resUSD&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;Asset:&amp;nbsp;&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;105 + 200 + 10 resUSD&lt;/span&gt;&lt;/div&gt;&lt;div&gt;Equity:&lt;/div&gt;&lt;div&gt;Liabilities:&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;50 shares @ 4 resUSD, 1 BTC payable in resUSD&lt;/span&gt;&lt;/div&gt;&lt;div&gt;Collateral ratio: 305 / 200 = 152.5%&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="960" width="620" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-5" value="resBTC Market contract" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="930" y="-195" width="120" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-6" value="Market manager,&lt;br&gt;adjust (fundId, marketId) debt and deposit/withdraw to and from funds" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="872" y="430" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-10" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1" target="X0SEwoF5Xa97k3sL53Wh-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="695" y="470" as="sourcePoint" />
+            <mxPoint x="755" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-11" value="" style="endArrow=none;html=1;rounded=0;entryX=0.535;entryY=0.993;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="X0SEwoF5Xa97k3sL53Wh-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="695" y="600" as="sourcePoint" />
+            <mxPoint x="930" y="600" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="936" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-12" value="" style="endArrow=none;html=1;rounded=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="X0SEwoF5Xa97k3sL53Wh-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="695" y="740" as="sourcePoint" />
+            <mxPoint x="940" y="740" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="962" y="740" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-13" value="setLiquidity, setSupplyTarget" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="770" y="700" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-14" value="resBTC" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="790" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-15" value="resETH" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="910" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-16" value="" style="endArrow=none;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="X0SEwoF5Xa97k3sL53Wh-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1050" y="790" as="sourcePoint" />
+            <mxPoint x="1050" y="464.85714285714283" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1050" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-17" value="" style="endArrow=none;html=1;rounded=0;exitX=1.011;exitY=0.569;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="X0SEwoF5Xa97k3sL53Wh-15" target="X0SEwoF5Xa97k3sL53Wh-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1150" y="935" as="sourcePoint" />
+            <mxPoint x="1190" y="410" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1200" y="944" />
+              <mxPoint x="1200" y="450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-18" value="deposit,&lt;br&gt;withdraw" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="740" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="X0SEwoF5Xa97k3sL53Wh-20" target="X0SEwoF5Xa97k3sL53Wh-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-20" value="Synth trader" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="810" y="900" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-25" value="buy,&lt;br&gt;sell" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="850" y="900" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-28" value="deposit,&lt;br&gt;withdraw" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="960" y="520" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-30" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="40" y="1290" as="sourcePoint" />
+            <mxPoint x="1377.931034482759" y="1290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-31" value="Domain view" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="368" y="410" width="135" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-32" value="Fund3" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="140" y="1360" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="X0SEwoF5Xa97k3sL53Wh-33" value="Fund2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="358" y="1360" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
