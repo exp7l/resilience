@@ -48,12 +48,4 @@ contract Market is IMarket {
     function deposit(uint256 amount) external {
         susdBalances[msg.sender] += amount;
     }
-
-    /// @dev basic synth spot market for sBTC as mentioned in SIP 303
-    // TODO
-    function mint(uint256 amount) external {}
-
-    /// @dev basic synth spot market for sBTC as mentioned in SIP 303
-    // TODO
-    function burn(uint256 amount) external {}
 }
