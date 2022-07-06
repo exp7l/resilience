@@ -8,6 +8,7 @@ contract Market is IMarket {
     uint256 public supplyTarget;
     /// @dev should also be equal to balance
     uint256 public liquidity;
+    uint256 public totalFundBalances;
 
     mapping(uint256 => int256) public fundBalances;
     mapping(uint256 => uint256) public fundSupplyTargets;

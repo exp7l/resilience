@@ -74,6 +74,15 @@ contract MarketManager {
         return market.fundBalances(fundId);
     }
 
+    function totalFundBalance(uint256 marketId) external view returns (int256) {
+        address marketAddr = idToMarkets[marketId];
+        require(marketAddr != address(0), "market does not exist");
+
+        Market market = Market(marketAddr);
+
+        return market.totalFundBalances();
+    }
+
     function deposit(uint256 marketId, uint256 amount) public {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
