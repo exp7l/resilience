@@ -84,6 +84,6 @@ contract Market is IMarket {
 
         uint256 susdAmount = amount * synthPrice;
 
-        susd.transfer(msg.sender, susdAmount);
+        susd.transferFrom(address(marketManager), msg.sender, susdAmount);
     }
 }
