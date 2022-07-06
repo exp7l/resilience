@@ -87,7 +87,10 @@ contract MarketManager {
 
         Market market = Market(marketAddr);
 
-        return market.fundBalances(fundId);
+        int256 totalFundBalance = market.balance();
+        uint256 share = market.fundLiquidities(fundId) / market.liquidity();
+
+        return share * totalFundBalance;
     }
 
     function totalFundBalance(uint256 marketId) external view returns (int256) {
@@ -96,7 +99,7 @@ contract MarketManager {
 
         Market market = Market(marketAddr);
 
-        return market.totalFundBalances();
+        return market.balance();
     }
 
     function deposit(uint256 marketId, uint256 amount) public {

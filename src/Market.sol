@@ -8,14 +8,12 @@ import "./ISynth.sol";
 
 // TODO: access control, erc20 interface for synth, price oracle, optimisation
 contract Market is IMarket {
-    /// @dev synth erc20 contract address
+    /// @dev synth erc20 contract address, assumes synth will only be used in this market
     ISynth public synth;
     uint256 public synthPrice;
     IERC20 public susd;
 
     IMarketManager public marketManager;
-
-    uint256 public totalFundBalances;
 
     uint256 public fee;
 
