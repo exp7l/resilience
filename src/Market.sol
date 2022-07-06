@@ -76,4 +76,14 @@ contract Market is IMarket {
 
         synth.mint(msg.sender, synthAmount);
     }
+
+    // TODO decimals
+    function sell(uint256 amount) external {
+        bool success = synth.burn(msg.sender, amount);
+        require(success, "ERC20: failed to transfer");
+
+        uint256 susdAmount = amount * synthPrice;
+
+        susd.transfer(msg.sender, susdAmount);
+    }
 }
