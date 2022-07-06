@@ -20,7 +20,8 @@ contract Market is IMarket {
     uint256 public fee;
 
     address[] public funds;
-    mapping(uint256 => int256) public fundBalances;
+    mapping(uint256 => uint256) public fundLiquidities;
+
     mapping(uint256 => uint256) public fundSupplyTargets;
 
     // TODO price oracle
@@ -61,7 +62,7 @@ contract Market is IMarket {
         // TODO: fundId check
 
         int256 amountSigned = int256(amount);
-        fundBalances[fundId] = amountSigned;
+        fundLiquidities[fundId] = amountSigned;
     }
 
     // TODO decimal places
