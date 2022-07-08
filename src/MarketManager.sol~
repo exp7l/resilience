@@ -25,7 +25,7 @@ contract MarketManager {
 
     function registerMarket(address marketAddr) external returns (uint256) {
         // TODO: check Market implements balance() function
-        require(marketsToId[marketAddr] != 0, "market contract already exists");
+        require(marketsToId[marketAddr] == 0, "market contract already exists");
 
         idToMarkets[counter] = marketAddr;
         marketsToId[marketAddr] = counter;
@@ -43,8 +43,16 @@ contract MarketManager {
         require(marketAddr != address(0), "market does not exist");
         // TODO: fundId check
 
-        Market market = Market(idToMarkets[marketId]);
+        Market market = Market(marketAddr);
         market.setFundSupplyTarget(fundId, amount);
+    }
+
+    function supplyTarget(uint256 marketId) external returns (uint256) {
+        address marketAddr = idToMarkets[marketId];
+        require(marketAddr != address(0), "market does not exist");
+
+        Market market = Market(marketAddr);
+        return market.supplyTarget();
     }
 
     function setLiquidity(
@@ -56,8 +64,16 @@ contract MarketManager {
         require(marketAddr != address(0), "market does not exist");
         // TODO: fundId check
 
-        Market market = Market(idToMarkets[marketId]);
+        Market market = Market(marketAddr);
         market.setFundLiquidity(fundId, amount);
+    }
+
+    function liquidity(uint256 marketId) external returns (uint256) {
+        address marketAddr = idToMarkets[marketId];
+        require(marketAddr != address(0), "market does not exist");
+
+        Market market = Market(marketAddr);
+        return market.liquidity();
     }
 
     function fundBalance(uint256 marketId, uint256 fundId)
@@ -71,7 +87,19 @@ contract MarketManager {
 
         Market market = Market(marketAddr);
 
-        return market.fundBalances(fundId);
+        int256 totalFundBalance = market.balance();
+        uint256 share = market.fundLiquidities(fundId) / market.liquidity();
+
+        return share * totalFundBalance;
+    }
+
+    function totalFundBalance(uint256 marketId) external view returns (int256) {
+        address marketAddr = idToMarkets[marketId];
+        require(marketAddr != address(0), "market does not exist");
+
+        Market market = Market(marketAddr);
+
+        return market.balance();
     }
 
     function deposit(uint256 marketId, uint256 amount) public {
