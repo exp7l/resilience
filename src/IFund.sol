@@ -13,7 +13,7 @@ interface IFund {
   function mint(uint fundId, uint accountId, address collateralType, uint amount) external;
   function burn(uint fundId, uint accountId, address collateralType, uint amount) external;
   function rebalanceMarkets(uint fundId) external;
-  function setFundPosition(uint fundId, uint[] markets, uint[] weights) external;
+  function setFundPosition(uint fundId, uint[] calldata markets, uint[] calldata weights) external;
   function nominateFundOwner(uint fundId, address owner) external;
   function acceptFundOwnership(uint fundId) external;
   function renounceFundOwnership(uint fundId) external;
