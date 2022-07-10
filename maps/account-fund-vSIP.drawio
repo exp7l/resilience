@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-07-10T00:00:30.740Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="iOROfh1heqXcKsZ_Fs9x" version="20.0.4" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2022-07-10T00:41:20.894Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="QGAaAeWs909Qq5qmZV6j" version="20.0.4" type="github" pages="4">
   <diagram id="sK099LwJfF7bbQSy66-H" name="20220708-outdated">
     <mxGraphModel dx="2942" dy="2256" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -383,6 +383,115 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="QRAZ1Dhe-p4SWYX8lVT2" name="market-sequence">
+    <mxGraphModel dx="2942" dy="1156" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=8;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1" source="yaDToY4GENY-tmJ4t8ar-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="675" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-2" value="resUSD" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="645" y="280" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=8;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1" source="yaDToY4GENY-tmJ4t8ar-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="465" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-4" value="market manager" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="435" y="280" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fontSize=8;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1" source="yaDToY4GENY-tmJ4t8ar-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="305.1428571428569" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-6" value="resBTC" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="275" y="280" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=8;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1" source="yaDToY4GENY-tmJ4t8ar-8">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-8" value="alice" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="145" y="240" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-9" value="" style="endArrow=none;dashed=1;html=1;rounded=0;fontSize=8;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="165" y="350" as="sourcePoint" />
+            <mxPoint x="305" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-10" value="buy, 1 resBTC, for 100 resUSD" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="195" y="330" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-11" value="" style="endArrow=none;dashed=1;html=1;rounded=0;fontSize=8;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="305" y="390" as="sourcePoint" />
+            <mxPoint x="465" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-12" value="deposit, 100 resUSD" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="345" y="370" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-13" value="" style="endArrow=none;dashed=1;html=1;rounded=0;fontSize=8;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="465" y="440" as="sourcePoint" />
+            <mxPoint x="675" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-14" value="transferFrom(alice, market manager), 100 resUSD" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="535" y="430" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-15" value="ok" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="535" y="490" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-16" value="" style="endArrow=none;dashed=1;html=1;rounded=0;fontSize=8;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="465" y="520" as="sourcePoint" />
+            <mxPoint x="675" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-17" value="- for illustration, assume fund f1 and f2 provided 60% and 40% resUSD liquidity to collateralize resBTC minting&lt;br&gt;&lt;br&gt;- also assume protocol decided 110% is the collateral ratio to underwrite at when minting&lt;br&gt;&lt;br&gt;- also assume fee is 10%&lt;br&gt;&lt;br&gt;- increase f1 and f2&#39;s debt balance, by 6 * .9 = 5.4 and 3.6 resUSD&lt;br&gt;; liquidator will watch for liquidations, eg liquidate the fund / account when collateral ratio &amp;lt; 105%&lt;br&gt;&lt;br&gt;- fees deduct here&lt;br&gt;&lt;br&gt;- respond ok" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="325" y="530" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-18" value="" style="endArrow=none;dashed=1;html=1;rounded=0;fontSize=8;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="465" y="570" as="sourcePoint" />
+            <mxPoint x="675" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-19" value="ok" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="535" y="550" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-20" value="" style="endArrow=none;dashed=1;html=1;rounded=0;fontSize=8;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="305" y="620" as="sourcePoint" />
+            <mxPoint x="675" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-21" value="ok" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="450" y="590" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-22" value="- mint 90resUSD worth of resBTC, and update tokenBalance like ERC20" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="185" y="590" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-23" value="" style="endArrow=none;dashed=1;html=1;rounded=0;fontSize=8;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="165" y="650" as="sourcePoint" />
+            <mxPoint x="305" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yaDToY4GENY-tmJ4t8ar-24" value="Sequence diagram:&amp;nbsp;&lt;br&gt;event happens chronologically&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="305" y="200" width="170" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
