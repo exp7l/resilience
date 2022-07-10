@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-07-10T17:39:14.110Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="xVkgvs0bD7DyDJlvU4UN" version="20.0.4" type="github" pages="5">
+<mxfile host="app.diagrams.net" modified="2022-07-10T23:49:53.949Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="xmdjxwkLEkdpnNnDK3by" version="20.0.4" type="github" pages="5">
   <diagram id="sK099LwJfF7bbQSy66-H" name="20220708-outdated">
     <mxGraphModel dx="2942" dy="2256" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -521,7 +521,7 @@
         <mxCell id="Lk5L-f72F4RMzQ3zisXB-22" value="BAT vault" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="1055" y="230" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Lk5L-f72F4RMzQ3zisXB-23" value="wBTC vaults" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-23" value="wBTC vault" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="1055" y="570" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="Lk5L-f72F4RMzQ3zisXB-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Lk5L-f72F4RMzQ3zisXB-27" target="Lk5L-f72F4RMzQ3zisXB-32">
@@ -556,23 +556,23 @@
         <mxCell id="Lk5L-f72F4RMzQ3zisXB-29" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(248, 249, 250); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;deed3 (20000 BAT)&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="30" y="710" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Lk5L-f72F4RMzQ3zisXB-31" value="deedShares: 100&lt;br&gt;(7 wETH, 2500 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-31" value="miniVault:&lt;br&gt;debtShares: 100&lt;br&gt;(7 wETH, 2500 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="700" y="270" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Lk5L-f72F4RMzQ3zisXB-32" value="vault2&lt;br&gt;(16 wBTC, 160000 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1020" y="610" width="150" height="40" as="geometry" />
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-32" value="miniVault:&lt;br&gt;debtShares: 100&lt;br&gt;(16 wBTC, 160000 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="610" width="150" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="Lk5L-f72F4RMzQ3zisXB-34" value="vault3&lt;br&gt;(40 wBTC, 600000 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1020" y="680" width="150" height="40" as="geometry" />
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-34" value="miniVault:&lt;br&gt;debtShares: 375=600/160 * 100&lt;br&gt;(40 wBTC, 600000 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="680" width="180" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="Lk5L-f72F4RMzQ3zisXB-38" value="vault4&lt;br&gt;(16000 BAT, 4000 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1020" y="280" width="150" height="40" as="geometry" />
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-38" value="miniVault:&lt;br&gt;debtShares: 100&lt;br&gt;(16000 BAT, 4000 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="270" width="150" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="Lk5L-f72F4RMzQ3zisXB-40" value="fund1&#39;s debt: $3066k&lt;br&gt;fund1&#39;s collateral: $766.5k" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-40" value="fund1&#39;s debt: $3066k (assume 125% collateral ratio)&lt;br&gt;fund1&#39;s collateral: $766.5k" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="240" y="170" width="250" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Lk5L-f72F4RMzQ3zisXB-42" value="totalDeedShares: 100" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="696.25" y="350" width="127.5" height="30" as="geometry" />
+        <mxCell id="7FVKeHif7g5N8OWNla4X-1" value="Loss socialization:&lt;br&gt;&lt;br&gt;To calculate debt per share, a) fraction of debt for the &lt;b&gt;vault&lt;/b&gt;, b) divide the value by debt shares." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="200" width="590" height="200" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
