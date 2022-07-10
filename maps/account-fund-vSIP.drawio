@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-07-10T00:44:01.760Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="cnCZzEe5waU0kBuBb6vC" version="20.0.4" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2022-07-10T01:03:13.320Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="XJQLsAoFuxsl-e8QT_Hj" version="20.0.4" type="github" pages="5">
   <diagram id="sK099LwJfF7bbQSy66-H" name="20220708-outdated">
     <mxGraphModel dx="2942" dy="2256" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -387,7 +387,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="QRAZ1Dhe-p4SWYX8lVT2" name="market-sequence">
-    <mxGraphModel dx="2942" dy="1156" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2029" dy="797" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -491,6 +491,82 @@
         </mxCell>
         <mxCell id="yaDToY4GENY-tmJ4t8ar-24" value="Sequence diagram:&amp;nbsp;&lt;br&gt;event happens chronologically&amp;nbsp;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=8;fontColor=#000000;" vertex="1" parent="1">
           <mxGeometry x="305" y="200" width="170" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="FvzZB-967xeF8AR-dWK2" name="liquidation">
+    <mxGraphModel dx="2452" dy="963" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-1" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="130" width="1150" height="710" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-2" value="fund1&#39;s authorization" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="745" y="150" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-17" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="980" y="210" width="210" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-19" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="980" y="550" width="210" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-20" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="650" y="210" width="210" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-9" value="wETH vaults" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="725" y="230" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-22" value="BAT vaults" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1055" y="230" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-23" value="wBTC vaults" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1055" y="570" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Lk5L-f72F4RMzQ3zisXB-27" target="Lk5L-f72F4RMzQ3zisXB-32">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="90" y="390" />
+              <mxPoint x="630" y="390" />
+              <mxPoint x="630" y="630" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="Lk5L-f72F4RMzQ3zisXB-27" target="Lk5L-f72F4RMzQ3zisXB-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-27" value="deed1&lt;br&gt;(10 wETH, 20 wBTC)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="230" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Lk5L-f72F4RMzQ3zisXB-28" target="Lk5L-f72F4RMzQ3zisXB-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-28" value="deed2&lt;br&gt;(50 wBTC)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="455" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="Lk5L-f72F4RMzQ3zisXB-29" target="Lk5L-f72F4RMzQ3zisXB-38">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="910" y="740" />
+              <mxPoint x="910" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-29" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(248, 249, 250); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;deed3 (20000 BAT)&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="710" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-31" value="vault1&lt;br&gt;(7 wETH, 2500 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="270" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-32" value="vault2&lt;br&gt;(16 wBTC, 160000 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="610" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-34" value="vault3&lt;br&gt;(40 wBTC, 600000 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="680" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-38" value="vault4&lt;br&gt;(16000 BAT, 4000 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="280" width="150" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
