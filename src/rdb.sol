@@ -3,12 +3,17 @@ pragma solidity ^0.8.13;
 
 import "./auth.sol";
 import "./oracle.sol";
+import "./math.sol";
+import "./deed.sol";
 
 // Grab bag of runtime data - Runtime Database
 
 contract RDB is Auth {
   address                   public deed;
   address                   public fund;
+  address                   public rusd;
+  mapping(address => uint)  public targetCratios;
+  mapping(address => uint)  public minCratios;  
 
   // Approved asset types.
   mapping (address => bool) public approved;
@@ -42,9 +47,9 @@ contract RDB is Auth {
 
   // USD are in 18 digit precisions.
   function assetUSDValue(address _erc20, uint _amount)
-    external view
+    public view
     returns (uint)
   {
     return Oracle(oracles[_erc20]).usdValue(_amount);
-  }
+  } 
 }
