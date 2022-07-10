@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-07-10T01:03:13.320Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="XJQLsAoFuxsl-e8QT_Hj" version="20.0.4" type="github" pages="5">
+<mxfile host="app.diagrams.net" modified="2022-07-10T17:25:58.395Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="Jz_j21A-gPVdKe-RCNam" version="20.0.4" type="github" pages="5">
   <diagram id="sK099LwJfF7bbQSy66-H" name="20220708-outdated">
     <mxGraphModel dx="2942" dy="2256" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -567,6 +567,9 @@
         </mxCell>
         <mxCell id="Lk5L-f72F4RMzQ3zisXB-38" value="vault4&lt;br&gt;(16000 BAT, 4000 rUSD)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1020" y="280" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Lk5L-f72F4RMzQ3zisXB-40" value="fund1&#39;s debt: $3066k&lt;br&gt;fund1&#39;s collateral: $766.5k" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="240" y="170" width="250" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
