@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-07-08T20:57:35.233Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="fci51ZCeWf93SCGEwLeR" version="20.0.4" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2022-07-10T00:00:30.740Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" etag="iOROfh1heqXcKsZ_Fs9x" version="20.0.4" type="github" pages="3">
   <diagram id="sK099LwJfF7bbQSy66-H" name="20220708-outdated">
     <mxGraphModel dx="2942" dy="2256" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -211,8 +211,8 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="C1gZp6iVmQBs-XKoMId0" name="Page-2">
-    <mxGraphModel dx="3792" dy="1156" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+  <diagram id="C1gZp6iVmQBs-XKoMId0" name="domain-view">
+    <mxGraphModel dx="2879" dy="797" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -375,6 +375,14 @@
         <mxCell id="V1WEgDDrfmdh25mQEniS-38" value="provide liquidity" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="510" y="100" width="80" height="30" as="geometry" />
         </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="3ysqNl4bnLMaChjNCk5Z" name="contract-view">
+    <mxGraphModel dx="2942" dy="1156" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
       </root>
     </mxGraphModel>
   </diagram>
