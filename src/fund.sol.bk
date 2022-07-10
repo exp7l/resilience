@@ -1,0 +1,90 @@
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
+
+import "./interfaces/erc20.sol";
+import "./rdb.sol";
+
+/*
+Scope:
+1. Manage asset deposit from deeds.
+2. Manage vaults.
+3. Track vaults to debt shares.
+4. Appointment of manager.
+5. Liquidity provision using USD from the vaults the fund manages.
+*/
+
+contract Fund {
+  //       fundId => Appointment
+  mapping (uint   => Appointment)                                      public  appointments;
+  //       fundId =>         deedId =>         collateral => balance
+  mapping (uint   => mapping(uint   => mapping(address    => uint)))   public  collaterals;
+
+  // Collateralized debt position
+  struct CDP {
+    // metadata
+  	uint    accountId;
+  	address collateralType;
+  	uint    collateralAmount;
+    // account data
+  	uint    debt;
+  	int     usdBalance;
+  }
+
+  struct Appointment {
+	uint    fundId;
+    address manager;
+    address nomination;
+  }
+
+  Configuration config;
+
+  constructor(address _config) {
+	config = Configuration(_config);
+  }
+  
+  function createFund(uint requestedFundId, address owner) external {}
+  function accountFundDebt(uint fundId, uint accountId, address collateralType) external {}
+  function fundDebt(uint fundId) external {}
+  function totalDebtShares(uint fundId) external {}
+  function debtPerShare(uint fundId) external {}
+  function collateralizationRatio(uint fundId, uint accountId, address collateralType) external {}
+
+
+  // CDP
+  function delegateCollateral(uint _fundId, uint _accountId, address _collateralType, uint _amount)
+	external
+  {
+    Account _account    = config.account();
+    require(msg.sender == _account.ownerOf(accountId));
+    IERC20(collateralType).transferFrom(address(_account), address(this), amount);
+    CollateralEntry memory entry = collaterals[fundId][accountId][collateralType];
+    collaterals[fundId][accountId][collateralType] = CollateralEntry({
+      accountId: accountId,
+      collateralType: collateralType,
+      collateralAmount: entry.collateralAmount + amount,
+      leverage: leverage
+    });
+    collaterals[fundId][accountId][collateralType].collateralAmount += amount;
+  }
+
+  // CDP
+  function mint(uint fundId, uint accountId, address collateralType, uint amount)
+	external
+  {
+	// Mint through ERC20 resUSD
+    
+  }
+
+  // CDP
+  function burn(uint fundId, uint accountId, address collateralType, uint amount)
+	external
+  {
+	
+  }
+  
+  function rebalanceMarkets(uint fundId) external {}
+  function setFundPosition(uint fundId, uint[] calldata markets, uint[] calldata weights) external {}
+  function nominateFundOwner(uint fundId, address owner) external {}
+  function acceptFundOwnership(uint fundId) external {}
+  function renounceFundOwnership(uint fundId) external {}
+}

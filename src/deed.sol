@@ -19,7 +19,7 @@ contract Deed is DSDeed("Resilient Deed", "RDeed") {
   function deposit(uint _deedId, address _erc20, uint _amount)
     external
   {
-    require(msg.sender == _deeds[_erc20].guy, "not-owner");
+    require(msg.sender == _deeds[_deedId].guy, "not-owner");
 	require(rdb.approved(_erc20), "not-approved");
 	cash[_deedId][_erc20] += _amount;    
     ERC20(_erc20).transferFrom(msg.sender, address(this), _amount);
@@ -28,8 +28,8 @@ contract Deed is DSDeed("Resilient Deed", "RDeed") {
   function withdraw(uint _deedId, address _erc20, uint _amount)
     external
   {
-    require(msg.sender == _deeds[_erc20].guy, "not-owner");
-    require(cash[_erc20] >= _amount, "not-sufficient-fund");
+    require(msg.sender == _deeds[_deedId].guy, "not-owner");
+    require(cash[_deedId][_erc20] >= _amount, "not-sufficient-fund");
 	cash[_deedId][_erc20] -= _amount;
 	ERC20(_erc20).transferFrom(address(this), msg.sender, _amount);
   } 
