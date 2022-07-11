@@ -14,6 +14,8 @@ contract MarketManager {
     /// @dev susd balances
     mapping(address => uint256) usersToBalances;
 
+    mapping(uint256 => address[]) public marketToFunds;
+
     /// @dev marketId => fundId => supply target
     mapping(uint256 => mapping(uint256 => uint256))
         public marketToFundsToSupplyTargets;
@@ -58,12 +60,26 @@ contract MarketManager {
         emit SupplyTargetSet(marketId, fundId, amount);
     }
 
-    function supplyTarget(uint256 marketId) external returns (uint256) {
+    function supplyTarget(uint256 marketId)
+        external
+        returns (uint256 supplytarget)
+    {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
 
-        Market market = Market(marketAddr);
-        return market.supplyTarget();
+        address[] memory funds = marketToFunds[marketId];
+        require(fund.length > 0, "no funds");
+
+        mapping(uint256 => uint256)
+            memory fundsToSupplyTargets = marketToFundsToSupplyTargets[
+                marketId
+            ];
+
+        for (uint256 i = 0; i < funds.length; i++) {
+            supplytarget += fundsToSupplyTargets[funds[i]];
+        }
+
+        return;
     }
 
     function setLiquidity(

@@ -17,7 +17,6 @@ contract Market is IMarket {
 
     uint256 public fee;
 
-    address[] public funds;
     mapping(uint256 => uint256) public fundLiquidities;
 
     // TODO price oracle
@@ -38,14 +37,6 @@ contract Market is IMarket {
 
         fee = _fee;
         funds = _funds;
-    }
-
-    function supplyTarget() external view returns (uint256 supplytarget) {
-        for (uint256 i = 0; i < funds.length; i++) {
-            supplytarget += fundSupplyTargets[funds[i]];
-        }
-
-        return;
     }
 
     function setFundLiquidity(uint256 fundId, uint256 amount) external {
