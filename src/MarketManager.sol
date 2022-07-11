@@ -20,6 +20,10 @@ contract MarketManager {
     mapping(uint256 => mapping(uint256 => uint256))
         public marketToFundsToSupplyTargets;
 
+    /// @dev marketId => fundId => liquidity
+    mapping(uint256 => mapping(uint256 => uint256))
+        public marketToFundsToLiquidity;
+
     constructor() {
         counter = 1;
     }
@@ -30,6 +34,12 @@ contract MarketManager {
     );
 
     event SupplyTargetSet(
+        uint256 indexed marketId,
+        uint256 indexed fundId,
+        uint256 indexed amount
+    );
+
+    event LiquiditySet(
         uint256 indexed marketId,
         uint256 indexed fundId,
         uint256 indexed amount
@@ -91,8 +101,9 @@ contract MarketManager {
         require(marketAddr != address(0), "market does not exist");
         // TODO: fundId check
 
-        Market market = Market(marketAddr);
-        market.setFundLiquidity(fundId, amount);
+        marketToFundsToLiquidity[marketId][fundId] = amount;
+
+        emit LiquiditySet(marketId, fundId, amount);
     }
 
     function liquidity(uint256 marketId) external returns (uint256) {

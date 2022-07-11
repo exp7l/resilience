@@ -17,8 +17,6 @@ contract Market is IMarket {
 
     uint256 public fee;
 
-    mapping(uint256 => uint256) public fundLiquidities;
-
     // TODO price oracle
     constructor(
         address _synthAddr,
@@ -37,13 +35,6 @@ contract Market is IMarket {
 
         fee = _fee;
         funds = _funds;
-    }
-
-    function setFundLiquidity(uint256 fundId, uint256 amount) external {
-        // TODO: fundId check
-
-        int256 amountSigned = int256(amount);
-        fundLiquidities[fundId] = amountSigned;
     }
 
     function liquidity() external view returns (uint256 totalLiquidity) {
