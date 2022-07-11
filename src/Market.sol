@@ -4,6 +4,7 @@ pragma solidity ^0.8.13;
 import "./IERC20.sol";
 import "./IMarket.sol";
 import "./IMarketManager.sol";
+import "./MarketManager.sol";
 import "./ISynth.sol";
 
 // TODO: access control, erc20 interface for synth, price oracle, optimisation
@@ -49,17 +50,13 @@ contract Market is IMarket {
 
     // TODO decimals, send fees somewhere
     function buy(uint256 amount) external {
-        bool success = susd.transferFrom(
-            msg.sender,
-            address(marketManager),
-            amount
-        );
-        require(success, "ERC20: failed to transfer");
-
         uint256 fees = fee * amount;
         uint256 amountLeftToPurchase = amount - fees;
 
         uint256 synthAmount = amountLeftToPurchase / synthPrice;
+
+        uint256 marketId = marketManager.marketsToId[address(this)];
+        marketManager.deposit(marketId, amountLeftToPurchase);
 
         synth.mint(msg.sender, synthAmount);
     }
