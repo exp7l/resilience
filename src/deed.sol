@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import "ds-deed/deed.sol";
 import "./interfaces/erc20.sol";
 import "./rdb.sol";
-import "ds-deed/deed.sol";
 
 contract Deed is DSDeed("Resilient Deed", "RDeed") {
 
   RDB rdb;
   
-  //      deedId =>         asset          => balance
+  //      deedId           asset              balance
   mapping(uint   => mapping(address        => uint))   public cash;
 		  
   constructor(address _rdb) {

@@ -11,6 +11,7 @@ import "./deed.sol";
 contract RDB is Auth {
   address                   public deed;
   address                   public fund;
+  address                   public vault;
   address                   public rusd;
   mapping(address => uint)  public targetCratios;
   mapping(address => uint)  public minCratios;  
@@ -20,7 +21,7 @@ contract RDB is Auth {
 
   //       erc20      oracle
   mapping (address => address) public oracles;
-  
+
   function approve(address _erc20)
     external auth
   {
@@ -45,11 +46,23 @@ contract RDB is Auth {
     fund = _fund;
   }
 
+  function setVault(address _vault)
+    external auth
+  {
+    vault = _vault;
+  }  
+
+  function setRUSD(address _rusd)
+    external auth
+  {
+    rusd = _rusd;
+  }  
+
   // USD are in 18 digit precisions.
   function assetUSDValue(address _erc20, uint _amount)
     public view
     returns (uint)
   {
     return Oracle(oracles[_erc20]).usdValue(_amount);
-  } 
+  }
 }

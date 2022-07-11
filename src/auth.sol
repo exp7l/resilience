@@ -22,6 +22,10 @@ contract Auth {
 	_;
   }
 
+  constructor() {
+    authorized[msg.sender] = 1;
+  }
+
   function stop() external auth {
 	stopped = true;
 	emit Stop();

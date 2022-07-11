@@ -37,7 +37,14 @@ contract Fund {
 	rdb = RDB(_rdb);
   }
 
-  function createFund(uint requestedFundId, address owner) external {}
+  function createFund(uint _requestedFundId, address _owner) external {
+    require(appointments[_requestedFundId].manager == address(0), "ERR_ID_TAKEN");
+    appointments[_requestedFundId] = Appointment({
+      fundId:      _requestedFundId,
+      manager:     msg.sender,
+      nomination:  address(0)
+    });
+  }
   function rebalanceMarkets(uint fundId) external {}
   function setFundPosition(uint fundId, uint[] calldata markets, uint[] calldata weights) external {}
   function nominateFundOwner(uint fundId, address owner) external {}
