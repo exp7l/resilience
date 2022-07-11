@@ -126,7 +126,7 @@ contract MarketManager {
         return;
     }
 
-    function fundBalance(uint256 marketId, uint256 fundId)
+    function fundDebt(uint256 marketId, uint256 fundId)
         external
         view
         returns (int256)
@@ -137,13 +137,13 @@ contract MarketManager {
 
         Market market = Market(marketAddr);
 
-        int256 totalFundBalance = market.balance();
+        int256 totalFundDebt = market.balance();
         uint256 share = market.fundLiquidities(fundId) / market.liquidity();
 
-        return share * totalFundBalance;
+        return share * totalFundDebt;
     }
 
-    function totalFundBalance(uint256 marketId) external view returns (int256) {
+    function totalFundDebt(uint256 marketId) external view returns (int256) {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
 
