@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import "./IERC20.sol";
 import "./IMarketManager.sol";
 import "./Market.sol";
 
 // TODO: inherit IMarketManager
 contract MarketManager {
     uint256 counter;
+    IERC20 public susd;
 
     mapping(uint256 => address) idToMarkets;
     mapping(uint256 => address) idToDeposits;
     mapping(address => uint256) marketsToId;
-    /// @dev susd balances
-    mapping(address => uint256) usersToBalances;
 
     mapping(uint256 => address[]) public marketToFunds;
 
@@ -24,8 +24,12 @@ contract MarketManager {
     mapping(uint256 => mapping(uint256 => uint256))
         public marketToFundsToLiquidity;
 
-    constructor() {
+    /// @dev marketId => external liquidity (susd deposited to swap to synth by traders)
+    mapping(uint256 => uint256) public marketToExternalLiquidity;
+
+    constructor(address _susdAddr) {
         counter = 1;
+        susd = IERC20(_susdAddr);
     }
 
     event MarketRegistered(
@@ -156,11 +160,11 @@ contract MarketManager {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
 
-        usersToBalances[msg.sender] += amount;
+        /// @dev Transfers the specified amount of sUSD from msg.sender (in market.sol's buy() function) to market manager with the deposit() function.
+        bool success = susd.transferFrom(tx.origin, address(this), amount);
+        require(success, "ERC20: failed to transfer");
 
-        Market market = Market(marketAddr);
-
-        market.mint(amount);
+        marketToExternalLiquidity[marketAddr] += amount;
     }
 
     function withdraw(
