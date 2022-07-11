@@ -14,6 +14,10 @@ contract MarketManager {
     /// @dev susd balances
     mapping(address => uint256) usersToBalances;
 
+    /// @dev marketId => fundId => supply target
+    mapping(uint256 => mapping(uint256 => uint256))
+        public marketToFundsToSupplyTargets;
+
     constructor() {
         counter = 1;
     }
@@ -21,6 +25,12 @@ contract MarketManager {
     event MarketRegistered(
         uint256 indexed marketId,
         address indexed marketAddr
+    );
+
+    event SupplyTargetSet(
+        uint256 indexed marketId,
+        uint256 indexed fundId,
+        uint256 indexed amount
     );
 
     function registerMarket(address marketAddr) external returns (uint256) {
@@ -43,8 +53,9 @@ contract MarketManager {
         require(marketAddr != address(0), "market does not exist");
         // TODO: fundId check
 
-        Market market = Market(marketAddr);
-        market.setFundSupplyTarget(fundId, amount);
+        marketToFundsToSupplyTargets[marketId][fundId] = amount;
+
+        emit SupplyTargetSet(marketId, fundId, amount);
     }
 
     function supplyTarget(uint256 marketId) external returns (uint256) {
