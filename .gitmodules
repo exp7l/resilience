@@ -1,12 +1,3 @@
 [submodule "lib/forge-std"]
 	path = lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
-[submodule "lib/ds-deed"]
-	path = lib/ds-deed
-	url = https://github.com/brianmcmichael/ds-deed
-[submodule "lib/ds-math"]
-	path = lib/ds-math
-	url = https://github.com/dapphub/ds-math
-[submodule "lib/ds-proxy"]
-	path = lib/ds-proxy
-	url = https://github.com/dapphub/ds-proxy
