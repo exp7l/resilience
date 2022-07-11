@@ -106,12 +106,24 @@ contract MarketManager {
         emit LiquiditySet(marketId, fundId, amount);
     }
 
-    function liquidity(uint256 marketId) external returns (uint256) {
+    function liquidity(uint256 marketId)
+        external
+        returns (uint256 totalLiquidity)
+    {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
 
-        Market market = Market(marketAddr);
-        return market.liquidity();
+        address[] memory funds = marketToFunds[marketId];
+        require(fund.length > 0, "no funds");
+
+        mapping(uint256 => uint256)
+            memory fundsToLiquidities = marketToFundsToLiquidity[marketId];
+
+        for (uint256 i = 0; i < funds.length; i++) {
+            totalLiquidity += fundsToLiquidities[funds[i]];
+        }
+
+        return;
     }
 
     function fundBalance(uint256 marketId, uint256 fundId)

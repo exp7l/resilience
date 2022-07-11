@@ -37,14 +37,6 @@ contract Market is IMarket {
         funds = _funds;
     }
 
-    function liquidity() external view returns (uint256 totalLiquidity) {
-        for (uint256 i = 0; i < funds.length; i++) {
-            totalLiquidity += fundLiquidities[funds[i]];
-        }
-
-        return;
-    }
-
     // TODO decimal places
     function balance() external view returns (int256) {
         /// TODO price oracle
