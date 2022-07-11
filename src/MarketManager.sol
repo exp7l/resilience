@@ -135,10 +135,10 @@ contract MarketManager {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
 
-        Market market = Market(marketAddr);
+        int256 totalFundDebt = totalFundDebt(marketId);
 
-        int256 totalFundDebt = market.balance();
-        uint256 share = market.fundLiquidities(fundId) / market.liquidity();
+        uint256 share = marketToFundsToLiquidity[marketId][fundId] /
+            liquidity(marketId);
 
         return share * totalFundDebt;
     }
