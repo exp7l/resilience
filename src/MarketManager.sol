@@ -11,7 +11,6 @@ contract MarketManager {
     IERC20 public susd;
 
     mapping(uint256 => address) idToMarkets;
-    mapping(uint256 => address) idToDeposits;
     mapping(address => uint256) public marketsToId;
 
     mapping(uint256 => address[]) public marketToFunds;
