@@ -64,13 +64,14 @@ contract Market is IMarket {
     // TODO decimals, send fees somewhere
     function sell(uint256 amount) external {
         bool success = synth.burn(msg.sender, amount);
-        require(success, "ERC20: failed to transfer");
+        require(success, "ERC20: failed to burn");
 
         uint256 susdAmount = amount * synthPrice;
 
         uint256 fees = fee * susdAmount;
         uint256 susdAmountLeft = susdAmount - fees;
 
-        susd.transferFrom(address(marketManager), msg.sender, susdAmountLeft);
+        uint256 marketId = marketManager.marketsToId[address(this)];
+        marketManager.withdraw(marketId, susdAmountLeft, msg.sender);
     }
 }

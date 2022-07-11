@@ -175,11 +175,10 @@ contract MarketManager {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
 
-        Market market = Market(marketAddr);
+        /// @dev ransfers the appropriate amount of sUSD from the market manager the withdraw() function to msg.sender (in market.sol's sell() function).
+        bool success = susd.transferFrom(address(this), recipient, amount);
+        require(success, "ERC20: failed to transfer");
 
-        market.burn(amount);
-
-        usersToBalances[msg.sender] -= amount;
-        require(usersToBalances[msg.sender] >= 0, "insufficient balance");
+        marketToExternalLiquidity[marketAddr] -= amount;
     }
 }
