@@ -24,8 +24,7 @@ contract Market is IMarket {
         uint256 _synthPrice,
         address _susdAddr,
         address _marketManagerAddr,
-        uint256 _fee,
-        address[] calldata _funds
+        uint256 _fee
     ) public {
         synth = ISynth(_synthAddr);
         synthPrice = _synthPrice;
@@ -35,17 +34,12 @@ contract Market is IMarket {
         marketManager = IMarketManager(_marketManagerAddr);
 
         fee = _fee;
-        funds = _funds;
     }
 
     // TODO decimal places
     function balance() external view returns (int256) {
         /// TODO price oracle
         return -1 * synth.totalSupply() * synthPrice;
-    }
-
-    function deposit(uint256 amount) external {
-        susdBalances[msg.sender] += amount;
     }
 
     // TODO decimals, send fees somewhere
