@@ -65,6 +65,7 @@ contract MarketManager {
 
     function liquidity(uint256 marketId)
         public
+        view
         returns (uint256 totalLiquidity)
     {
         address marketAddr = idToMarkets[marketId];
@@ -104,7 +105,7 @@ contract MarketManager {
         uint256 share = marketToFundsToLiquidity[marketId][fundId] /
             liquidity(marketId);
 
-        return share * allFundDebt;
+        return int256(share) * allFundDebt;
     }
 
     function deposit(uint256 marketId, uint256 amount) public {
@@ -115,7 +116,7 @@ contract MarketManager {
         bool success = susd.transferFrom(tx.origin, address(this), amount);
         require(success, "ERC20: failed to transfer");
 
-        marketToExternalLiquidity[marketAddr] += amount;
+        marketToExternalLiquidity[marketId] += amount;
     }
 
     function withdraw(
@@ -130,6 +131,6 @@ contract MarketManager {
         bool success = susd.transferFrom(address(this), recipient, amount);
         require(success, "ERC20: failed to transfer");
 
-        marketToExternalLiquidity[marketAddr] -= amount;
+        marketToExternalLiquidity[marketId] -= amount;
     }
 }

@@ -14,7 +14,7 @@ contract Market is IMarket {
     uint256 public synthPrice;
     ERC20 public susd;
 
-    IMarketManager public marketManager;
+    MarketManager public marketManager;
 
     uint256 public fee;
 
@@ -31,7 +31,7 @@ contract Market is IMarket {
 
         susd = ERC20(_susdAddr);
 
-        marketManager = IMarketManager(_marketManagerAddr);
+        marketManager = MarketManager(_marketManagerAddr);
 
         fee = _fee;
     }
@@ -39,7 +39,7 @@ contract Market is IMarket {
     // TODO decimal places
     function balance() external view returns (int256) {
         /// TODO price oracle
-        return -1 * synth.totalSupply() * synthPrice;
+        return -1 * int256(synth.totalSupply()) * int256(synthPrice);
     }
 
     // TODO decimals, send fees somewhere
@@ -49,7 +49,7 @@ contract Market is IMarket {
 
         uint256 synthAmount = amountLeftToPurchase / synthPrice;
 
-        uint256 marketId = marketManager.marketsToId[address(this)];
+        uint256 marketId = marketManager.marketsToId(address(this));
         marketManager.deposit(marketId, amountLeftToPurchase);
 
         synth.mint(msg.sender, synthAmount);
@@ -57,15 +57,14 @@ contract Market is IMarket {
 
     // TODO decimals, send fees somewhere
     function sell(uint256 amount) external {
-        bool success = synth.burn(msg.sender, amount);
-        require(success, "ERC20: failed to burn");
+        synth.burn(msg.sender, amount);
 
         uint256 susdAmount = amount * synthPrice;
 
         uint256 fees = fee * susdAmount;
         uint256 susdAmountLeft = susdAmount - fees;
 
-        uint256 marketId = marketManager.marketsToId[address(this)];
+        uint256 marketId = marketManager.marketsToId(address(this));
         marketManager.withdraw(marketId, susdAmountLeft, msg.sender);
     }
 }
