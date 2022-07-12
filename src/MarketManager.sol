@@ -5,10 +5,12 @@ import "./math.sol";
 import "./interfaces/erc20.sol";
 import "./interfaces/IMarketManager.sol";
 import "./Market.sol";
+import "./fund.sol";
 
 contract MarketManager is IMarketManager, Math {
     uint256 counter;
     ERC20 public susd;
+    Fund public fundsRegistry;
 
     mapping(uint256 => address) idToMarkets;
     mapping(address => uint256) public marketsToId;
@@ -22,9 +24,10 @@ contract MarketManager is IMarketManager, Math {
     /// @dev marketId => external liquidity (susd deposited to swap to synth by traders)
     mapping(uint256 => uint256) public marketToExternalLiquidity;
 
-    constructor(address _susdAddr) {
+    constructor(address _susdAddr, address _fundsRegistryAddr) {
         counter = 1;
         susd = ERC20(_susdAddr);
+        fundsRegistry = Fund(_fundsRegistryAddr);
     }
 
     event MarketRegistered(
@@ -56,9 +59,11 @@ contract MarketManager is IMarketManager, Math {
     ) external returns (uint256) {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
-        // TODO: fundId check
-
-        marketToFundsToLiquidity[marketId][fundId] = amount;
+        address fundManager = fundsRegistry.appointments(fundId);
+        require(
+            fundManager == msg.sender,
+            "only fund manager can set liquidity"
+        );
 
         emit LiquiditySet(marketId, fundId, amount);
 
