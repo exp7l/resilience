@@ -135,10 +135,14 @@ contract MarketManager is IMarketManager, Math {
         require(marketAddr != address(0), "market does not exist");
         require(msg.sender == marketAddr, "market is not caller");
 
+        marketToExternalLiquidity[marketId] -= amount;
+        require(
+            marketToExternalLiquidity[marketId] >= 0,
+            "market does not have enough liquidity"
+        );
+
         /// @dev ransfers the appropriate amount of sUSD from the market manager the withdraw() function to msg.sender (in market.sol's sell() function).
         bool success = susd.transferFrom(address(this), recipient, amount);
         require(success, "ERC20: failed to transfer");
-
-        marketToExternalLiquidity[marketId] -= amount;
     }
 }
