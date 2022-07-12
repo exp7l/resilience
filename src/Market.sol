@@ -23,12 +23,11 @@ contract Market is IMarket, Math {
     // TODO price oracle
     constructor(
         address _synthAddr,
-        uint256 _synthPrice,
         address _susdAddr,
         address _marketManagerAddr,
         address _priceOracleAddr,
         uint256 _fee
-    ) public {
+    ) {
         synth = ISynth(_synthAddr);
         susd = ERC20(_susdAddr);
         marketManager = MarketManager(_marketManagerAddr);
