@@ -117,6 +117,7 @@ contract MarketManager is IMarketManager, Math {
     function deposit(uint256 marketId, uint256 amount) public {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
+        require(msg.sender == marketAddr, "market is not caller");
 
         /// @dev Transfers the specified amount of sUSD from msg.sender (in market.sol's buy() function) to market manager with the deposit() function.
         bool success = susd.transferFrom(tx.origin, address(this), amount);
@@ -132,6 +133,7 @@ contract MarketManager is IMarketManager, Math {
     ) public {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
+        require(msg.sender == marketAddr, "market is not caller");
 
         /// @dev ransfers the appropriate amount of sUSD from the market manager the withdraw() function to msg.sender (in market.sol's sell() function).
         bool success = susd.transferFrom(address(this), recipient, amount);
