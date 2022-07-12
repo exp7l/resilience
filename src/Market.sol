@@ -9,7 +9,6 @@ import "./interfaces/IMarketManager.sol";
 import "./MarketManager.sol";
 import "./interfaces/ISynth.sol";
 
-// TODO: access control, erc20 interface for synth, price oracle, optimisation
 contract Market is IMarket, Math {
     /// @dev synth erc20 contract address, assumes synth will only be used in this market
     ISynth public synth;
@@ -20,7 +19,6 @@ contract Market is IMarket, Math {
 
     uint256 public fee;
 
-    // TODO price oracle
     constructor(
         address _synthAddr,
         address _susdAddr,
@@ -36,7 +34,6 @@ contract Market is IMarket, Math {
     }
 
     function balance() external view returns (int256) {
-        /// TODO price oracle
         return -1 * int256(wmul(synth.totalSupply(), priceOracle.usdValue(1)));
     }
 
