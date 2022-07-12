@@ -76,7 +76,10 @@ contract Vault is Auth, Math, Test {
     owned(_deedId)
   {
     miniVaults[_fundId][_collateralType][_deedId].collateralAmount += _collateralAmount;
-    ERC20(_collateralType).transferFrom(msg.sender, address(this), _collateralAmount);
+    bool success = ERC20(_collateralType).transferFrom(msg.sender,
+                                                       address(this),
+                                                       _collateralAmount);
+    require(success, "ERR_TRANSFER");
   }
 
   function withdraw(uint _fundId,
@@ -89,9 +92,10 @@ contract Vault is Auth, Math, Test {
   {
     miniVaults[_fundId][_collateralType][_deedId].collateralAmount -= _collateralAmount;
     require(_safeCratio(_fundId, _collateralType, _deedId));
-    ERC20(_collateralType).transferFrom(address(this),
-                                        msg.sender,
-                                        _collateralAmount);    
+    bool success = ERC20(_collateralType).transferFrom(address(this),
+                                                       msg.sender,
+                                                       _collateralAmount);
+    require(success, "ERR_TRANSFER");
   }
 
   function _safeCratio(uint _fundId,
@@ -100,8 +104,7 @@ contract Vault is Auth, Math, Test {
     internal
     returns (bool)
   {
-    MiniVaultRecord storage _miniVault;
-    _miniVault     = miniVaults[_fundId][_collateralType][_deedId];
+    MiniVaultRecord storage _miniVault = miniVaults[_fundId][_collateralType][_deedId];
     uint _assetUSD = rdb.assetUSDValue(_collateralType,
                                        _miniVault.collateralAmount);
     if (_miniVault.usdBalance == 0) {
@@ -115,7 +118,7 @@ contract Vault is Auth, Math, Test {
                          uint    _deedId)
     private
   {
-    VaultRecord storage _v      = vaults[_fundId][_collateralType];
+    VaultRecord     storage _v  = vaults[_fundId][_collateralType];
     MiniVaultRecord storage _mv = miniVaults[_fundId][_collateralType][_deedId];
     _v.fundId                   = _fundId;
     _mv.fundId                  = _fundId;
@@ -132,8 +135,9 @@ contract Vault is Auth, Math, Test {
     external
     lock
   {        
-    VaultRecord storage _v      = vaults[_fundId][_collateralType];
-    MiniVaultRecord storage _mv = miniVaults[_fundId][_collateralType][_deedId];   
+    VaultRecord     storage _v  = vaults[_fundId][_collateralType];
+    MiniVaultRecord storage _mv = miniVaults[_fundId][_collateralType][_deedId];
+
     require(_usdAmount > 0,           "ERR_MINT");
     require(_mv.collateralAmount > 0, "ERR_MINT");
 
@@ -142,7 +146,6 @@ contract Vault is Auth, Math, Test {
     if (vaults[_fundId][_collateralType].debtShares == 0) {
       _v.debtShares  =  initialDebtShares;
       _mv.debtShares =  initialDebtShares;
-
     } else {
       uint _mintFactor     =  wdiv(_usdAmount, _v.usdBalance);
       uint _newDebtShares  =  wmul(_v.debtShares, _mintFactor);
@@ -158,13 +161,28 @@ contract Vault is Auth, Math, Test {
     ERC20(rdb.rusd()).mint(address(this), _usdAmount);
   }
 
-  function burn(uint _fundId,
+  function burn(uint    _fundId,
                 address _collateralType,
-                uint _deedId,
-                uint _amount)
+                uint    _deedId,
+                uint    _usdAmount)
     external
     lock
   {
+    MiniVaultRecord storage _mv = miniVaults[_fundId][_collateralType][_deedId];
+    VaultRecord     storage _v  = vaults[_fundId][_collateralType];    
+
+    require(_usdAmount > 0,               "ERR_BURN");
+    require(_mv.usdBalance >= _usdAmount, "ERR_BURN");
+
+    uint _factor         =  wdiv(_usdAmount, _v.usdBalance);
+    uint _diff           =  wmul(_v.debtShares, _factor);
+    _v.debtShares        -= _diff;
+    _mv.debtShares       -= _diff;
+    _mv.usdBalance        -= _usdAmount;
+
+    require(_safeCratio(_fundId, _collateralType, _deedId));
+
+    ERC20(rdb.rusd()).burn(address(this), _usdAmount);
   }
 
   function vaultDebt(uint _fundId,

@@ -70,7 +70,7 @@ contract VaultTest is Test, Math {
 	assertEq(_amountAfter, _collateralAmount - _withdrawal);
   }
 
-  function testMint(uint64 _usdAmount)
+  function testMint(uint128 _usdAmount)
 	public
   {
     vm.assume(_usdAmount != 0);
@@ -91,7 +91,7 @@ contract VaultTest is Test, Math {
 	assertEq(rusd.totalSupply(),  _usdAmount);
   }
 
-  function testMintTwice(uint64 _usdAmount)
+  function testMintTwice(uint128 _usdAmount)
 	public
   {
     vm.assume(_usdAmount != 0 && _usdAmount != 1);
@@ -114,5 +114,34 @@ contract VaultTest is Test, Math {
 	assertEq(_vUSDAmount  / 2       , _usdAmount);
 	assertEq(rusd.totalSupply() / 2 , _usdAmount);
 	// TODO: What does state change not apply after this point?
+  }
+
+  function testBurn(uint128 _usdAmount)
+	public
+  {
+	vm.assume(_usdAmount != 0 && _usdAmount != 1);
+	vm.mockCall(address(rdb),
+				abi.encodeWithSelector(rdb.assetUSDValue.selector),
+				abi.encode(WAD));
+	vm.mockCall(address(rdb),
+				abi.encodeWithSelector(rdb.targetCratios.selector),
+				abi.encode(0));
+
+	uint128 _deposit = type(uint128).max;
+	vault.deposit(fundId, address(erc20), deedId, _deposit);
+	vault.mint(fundId, address(erc20), deedId, _usdAmount);
+    uint _divisor = _usdAmount % 2 == 0 ? 2 : 1;
+	vault.burn(fundId, address(erc20), deedId, _usdAmount / _divisor);
+
+	(,,,,uint _mvUSDAmount,uint _mvDebtShares) = vault.miniVaults(fundId,
+																  address(erc20),
+																  deedId);
+	(,,,uint _vUSDAmount,uint _vDebtShares) = vault.vaults(fundId,
+														   address(erc20));	
+
+    uint _init = vault.initialDebtShares();
+	assertEq(_mvDebtShares     , _init - _init / _divisor);
+	assertEq(_mvUSDAmount      , _usdAmount - _usdAmount / _divisor);
+	assertEq(rusd.totalSupply(), _usdAmount - _usdAmount / _divisor);
   }
 }
