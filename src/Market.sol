@@ -37,13 +37,12 @@ contract Market is IMarket, Math {
         fee = _fee;
     }
 
-    // TODO decimal places
     function balance() external view returns (int256) {
         /// TODO price oracle
         return -1 * int256(wmul(synth.totalSupply(), synthPrice));
     }
 
-    // TODO decimals, send fees somewhere
+    // TODO send fees somewhere
     function buy(uint256 amount) external {
         uint256 fees = wmul(fee, amount);
         uint256 amountLeftToPurchase = amount - fees;
@@ -56,7 +55,7 @@ contract Market is IMarket, Math {
         synth.mint(msg.sender, synthAmount);
     }
 
-    // TODO decimals, send fees somewhere
+    // TODO send fees somewhere
     function sell(uint256 amount) external {
         synth.burn(msg.sender, amount);
 
