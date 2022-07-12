@@ -114,7 +114,7 @@ contract MarketManager is IMarketManager, Math {
         return int256(wmul(share, uint256(allFundDebt)));
     }
 
-    function deposit(uint256 marketId, uint256 amount) public {
+    function deposit(uint256 marketId, uint256 amount) external {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
         require(msg.sender == marketAddr, "market is not caller");
@@ -130,7 +130,7 @@ contract MarketManager is IMarketManager, Math {
         uint256 marketId,
         uint256 amount,
         address recipient
-    ) public {
+    ) external {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
         require(msg.sender == marketAddr, "market is not caller");
