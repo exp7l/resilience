@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+// Reference: https://github.com/dapphub/ds-token/blob/master/src/token.sol
 pragma solidity >=0.4.23 <=0.8.15;
 
 import "./auth.sol";
