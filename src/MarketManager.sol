@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import "./math.sol";
 import "./interfaces/erc20.sol";
 import "./interfaces/IMarketManager.sol";
 import "./Market.sol";
 
 // TODO: inherit IMarketManager
-contract MarketManager {
+contract MarketManager is Math {
     uint256 counter;
     ERC20 public susd;
 
@@ -104,10 +105,12 @@ contract MarketManager {
         uint256 marketLiquidity = liquidity(marketId);
         require(marketLiquidity > 0, "zero liquiity");
 
-        uint256 share = marketToFundsToLiquidity[marketId][fundId] /
-            marketLiquidity;
+        uint256 share = wdiv(
+            marketToFundsToLiquidity[marketId][fundId],
+            marketLiquidity
+        );
 
-        return int256(share) * allFundDebt;
+        return int256(wmul(share, uint256(allFundDebt)));
     }
 
     function deposit(uint256 marketId, uint256 amount) public {
