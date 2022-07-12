@@ -59,7 +59,7 @@ contract MarketManager is IMarketManager, Math {
     ) external returns (uint256) {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
-        address fundManager = fundsRegistry.appointments(fundId);
+        (, address fundManager, ) = fundsRegistry.appointments(fundId);
         require(
             fundManager == msg.sender,
             "only fund manager can set liquidity"
@@ -81,10 +81,8 @@ contract MarketManager is IMarketManager, Math {
         address[] memory funds = marketToFunds[marketId];
         require(funds.length > 0, "no funds");
 
-        // TODO: fundId
-        uint256 fundId = 0;
-
         for (uint256 i = 0; i < funds.length; i++) {
+            uint256 fundId = funds[i];
             totalLiquidity += marketToFundsToLiquidity[marketId][fundId];
         }
     }
@@ -103,9 +101,11 @@ contract MarketManager is IMarketManager, Math {
         view
         returns (int256)
     {
-        // TODO: fundId check
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
+
+        (, address fundManager, ) = fundsRegistry.appointments(fundId);
+        require(fundManager != address(0), "fund does not exist");
 
         int256 allFundDebt = totalFundDebt(marketId);
         uint256 marketLiquidity = liquidity(marketId);
