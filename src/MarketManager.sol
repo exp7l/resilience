@@ -15,7 +15,8 @@ contract MarketManager is IMarketManager, Math {
     mapping(uint256 => address) idToMarkets;
     mapping(address => uint256) public marketsToId;
 
-    mapping(uint256 => address[]) public marketToFunds;
+    /// @dev marketId => fundId
+    mapping(uint256 => uint256[]) public marketToFunds;
 
     /// @dev marketId => fundId => liquidity
     mapping(uint256 => mapping(uint256 => uint256))
@@ -78,7 +79,7 @@ contract MarketManager is IMarketManager, Math {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
 
-        address[] memory funds = marketToFunds[marketId];
+        uint256[] memory funds = marketToFunds[marketId];
         require(funds.length > 0, "no funds");
 
         for (uint256 i = 0; i < funds.length; i++) {
