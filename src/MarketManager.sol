@@ -137,7 +137,7 @@ contract MarketManager is IMarketManager, Math {
 
         marketToExternalLiquidity[marketId] -= amount;
         require(
-            marketToExternalLiquidity[marketId] >= 0,
+            marketToExternalLiquidity[marketId] + liquidity(marketId) >= 0,
             "market does not have enough liquidity"
         );
 
