@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import "./math.sol";
 import "./interfaces/erc20.sol";
+import "./oracle.sol";
 import "./interfaces/IMarket.sol";
 import "./interfaces/IMarketManager.sol";
 import "./MarketManager.sol";
@@ -12,8 +13,8 @@ import "./interfaces/ISynth.sol";
 contract Market is IMarket, Math {
     /// @dev synth erc20 contract address, assumes synth will only be used in this market
     ISynth public synth;
-    uint256 public synthPrice;
     ERC20 public susd;
+    Oracle public priceOracle;
 
     MarketManager public marketManager;
 
@@ -25,21 +26,19 @@ contract Market is IMarket, Math {
         uint256 _synthPrice,
         address _susdAddr,
         address _marketManagerAddr,
+        address _priceOracleAddr,
         uint256 _fee
     ) public {
         synth = ISynth(_synthAddr);
-        synthPrice = _synthPrice;
-
         susd = ERC20(_susdAddr);
-
         marketManager = MarketManager(_marketManagerAddr);
-
+        priceOracle = Oracle(_priceOracleAddr);
         fee = _fee;
     }
 
     function balance() external view returns (int256) {
         /// TODO price oracle
-        return -1 * int256(wmul(synth.totalSupply(), synthPrice));
+        return -1 * int256(wmul(synth.totalSupply(), priceOracle.usdValue(1)));
     }
 
     // TODO send fees somewhere
@@ -47,7 +46,10 @@ contract Market is IMarket, Math {
         uint256 fees = wmul(fee, amount);
         uint256 amountLeftToPurchase = amount - fees;
 
-        uint256 synthAmount = wdiv(amountLeftToPurchase, synthPrice);
+        uint256 synthAmount = wdiv(
+            amountLeftToPurchase,
+            priceOracle.usdValue(1)
+        );
 
         uint256 marketId = marketManager.marketsToId(address(this));
         marketManager.deposit(marketId, amountLeftToPurchase);
@@ -59,7 +61,7 @@ contract Market is IMarket, Math {
     function sell(uint256 amount) external {
         synth.burn(msg.sender, amount);
 
-        uint256 susdAmount = wmul(amount, synthPrice);
+        uint256 susdAmount = wmul(amount, priceOracle.usdValue(1));
 
         uint256 fees = wmul(fee, susdAmount);
         uint256 susdAmountLeft = susdAmount - fees;
