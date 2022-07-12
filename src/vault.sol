@@ -16,14 +16,14 @@ struct VaultRecord {
   uint    debtShares;
 }
 
-  struct MiniVaultRecord {
-    uint    fundId;    
-    address collateralType;
-    uint    deedId;    
-    uint    collateralAmount;  
-    uint    usdBalance;
-    uint    debtShares;  
-  }
+struct MiniVaultRecord {
+  uint    fundId;    
+  address collateralType;
+  uint    deedId;    
+  uint    collateralAmount;  
+  uint    usdBalance;
+  uint    debtShares;  
+}
 
 /*
   1. A fund can have as many vaults as there are accepted collateals.
@@ -40,7 +40,7 @@ contract Vault is Auth, Math, Test {
   mapping(uint   => mapping(address  => VaultRecord))                              public vaults;
 
   //      fundId            collateralType      deedId 
-  mapping(uint   => mapping(address  => mapping(uint => MiniVaultRecord)))         public miniVaults;
+  mapping(uint   => mapping(address  => mapping(uint => MiniVaultRecord)))        public miniVaults;
 
   uint public initialDebtShares = 100 * 10 ** 18;
 
@@ -65,6 +65,7 @@ contract Vault is Auth, Math, Test {
   constructor(address _rdb)
     {
       rdb = RDB(_rdb);
+      ERC20(rdb.rusd()).approve(rdb.fund(), type(uint).max);
     }
 
   function deposit(uint    _fundId,
@@ -144,8 +145,8 @@ contract Vault is Auth, Math, Test {
     _upsertVaults(_fundId, _collateralType, _deedId);
 
     if (vaults[_fundId][_collateralType].debtShares == 0) {
-      _v.debtShares  =  initialDebtShares;
-      _mv.debtShares =  initialDebtShares;
+      _v.debtShares  = initialDebtShares;
+      _mv.debtShares = initialDebtShares;
     } else {
       uint _mintFactor     =  wdiv(_usdAmount, _v.usdBalance);
       uint _newDebtShares  =  wmul(_v.debtShares, _mintFactor);
@@ -153,8 +154,8 @@ contract Vault is Auth, Math, Test {
       _mv.debtShares       += _newDebtShares;
     }
 
-    _v.usdBalance        += _usdAmount;
-    _mv.usdBalance       += _usdAmount;
+    _v.usdBalance  += _usdAmount;
+    _mv.usdBalance += _usdAmount;
 
     require(_safeCratio(_fundId, _collateralType, _deedId));
 
