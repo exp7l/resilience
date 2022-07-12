@@ -6,8 +6,7 @@ import "./interfaces/erc20.sol";
 import "./interfaces/IMarketManager.sol";
 import "./Market.sol";
 
-// TODO: inherit IMarketManager
-contract MarketManager is Math {
+contract MarketManager is IMarketManager, Math {
     uint256 counter;
     ERC20 public susd;
 
@@ -54,7 +53,7 @@ contract MarketManager is Math {
         uint256 marketId,
         uint256 fundId,
         uint256 amount
-    ) external {
+    ) external returns (uint256) {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
         // TODO: fundId check
@@ -62,6 +61,8 @@ contract MarketManager is Math {
         marketToFundsToLiquidity[marketId][fundId] = amount;
 
         emit LiquiditySet(marketId, fundId, amount);
+
+        return amount;
     }
 
     function liquidity(uint256 marketId)
