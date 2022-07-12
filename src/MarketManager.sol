@@ -64,7 +64,7 @@ contract MarketManager {
     }
 
     function liquidity(uint256 marketId)
-        external
+        public
         returns (uint256 totalLiquidity)
     {
         address marketAddr = idToMarkets[marketId];
@@ -73,17 +73,15 @@ contract MarketManager {
         address[] memory funds = marketToFunds[marketId];
         require(funds.length > 0, "no funds");
 
-        mapping(uint256 => uint256)
-            memory fundsToLiquidities = marketToFundsToLiquidity[marketId];
+        // TODO: fundId
+        uint256 fundId = 0;
 
         for (uint256 i = 0; i < funds.length; i++) {
-            totalLiquidity += fundsToLiquidities[funds[i]];
+            totalLiquidity += marketToFundsToLiquidity[marketId][fundId];
         }
-
-        return;
     }
 
-    function totalFundDebt(uint256 marketId) external view returns (int256) {
+    function totalFundDebt(uint256 marketId) public view returns (int256) {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
 
@@ -101,10 +99,10 @@ contract MarketManager {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
 
-        int256 allFundDebt = address(this).totalFundDebt(marketId);
+        int256 allFundDebt = totalFundDebt(marketId);
 
         uint256 share = marketToFundsToLiquidity[marketId][fundId] /
-            address(this).liquidity(marketId);
+            liquidity(marketId);
 
         return share * allFundDebt;
     }
