@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "./IERC20.sol";
-import "./IMarket.sol";
-import "./IMarketManager.sol";
+import "./interfaces/erc20.sol";
+import "./interfaces/IMarket.sol";
+import "./interfaces/IMarketManager.sol";
 import "./MarketManager.sol";
-import "./ISynth.sol";
+import "./interfaces/ISynth.sol";
 
 // TODO: access control, erc20 interface for synth, price oracle, optimisation
 contract Market is IMarket {
     /// @dev synth erc20 contract address, assumes synth will only be used in this market
     ISynth public synth;
     uint256 public synthPrice;
-    IERC20 public susd;
+    ERC20 public susd;
 
     IMarketManager public marketManager;
 
@@ -29,7 +29,7 @@ contract Market is IMarket {
         synth = ISynth(_synthAddr);
         synthPrice = _synthPrice;
 
-        susd = IERC20(_susdAddr);
+        susd = ERC20(_susdAddr);
 
         marketManager = IMarketManager(_marketManagerAddr);
 

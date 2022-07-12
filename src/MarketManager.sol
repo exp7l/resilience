@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "./IERC20.sol";
-import "./IMarketManager.sol";
+import "./interfaces/erc20.sol";
+import "./interfaces/IMarketManager.sol";
 import "./Market.sol";
 
 // TODO: inherit IMarketManager
 contract MarketManager {
     uint256 counter;
-    IERC20 public susd;
+    ERC20 public susd;
 
     mapping(uint256 => address) idToMarkets;
     mapping(address => uint256) public marketsToId;
@@ -28,7 +28,7 @@ contract MarketManager {
 
     constructor(address _susdAddr) {
         counter = 1;
-        susd = IERC20(_susdAddr);
+        susd = ERC20(_susdAddr);
     }
 
     event MarketRegistered(
@@ -81,7 +81,7 @@ contract MarketManager {
         require(marketAddr != address(0), "market does not exist");
 
         address[] memory funds = marketToFunds[marketId];
-        require(fund.length > 0, "no funds");
+        require(funds.length > 0, "no funds");
 
         mapping(uint256 => uint256)
             memory fundsToSupplyTargets = marketToFundsToSupplyTargets[
@@ -117,7 +117,7 @@ contract MarketManager {
         require(marketAddr != address(0), "market does not exist");
 
         address[] memory funds = marketToFunds[marketId];
-        require(fund.length > 0, "no funds");
+        require(funds.length > 0, "no funds");
 
         mapping(uint256 => uint256)
             memory fundsToLiquidities = marketToFundsToLiquidity[marketId];
@@ -129,6 +129,15 @@ contract MarketManager {
         return;
     }
 
+    function totalFundDebt(uint256 marketId) external view returns (int256) {
+        address marketAddr = idToMarkets[marketId];
+        require(marketAddr != address(0), "market does not exist");
+
+        Market market = Market(marketAddr);
+
+        return market.balance();
+    }
+
     function fundDebt(uint256 marketId, uint256 fundId)
         external
         view
@@ -138,21 +147,12 @@ contract MarketManager {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
 
-        int256 totalFundDebt = totalFundDebt(marketId);
+        int256 allFundDebt = address(this).totalFundDebt(marketId);
 
         uint256 share = marketToFundsToLiquidity[marketId][fundId] /
-            liquidity(marketId);
+            address(this).liquidity(marketId);
 
-        return share * totalFundDebt;
-    }
-
-    function totalFundDebt(uint256 marketId) external view returns (int256) {
-        address marketAddr = idToMarkets[marketId];
-        require(marketAddr != address(0), "market does not exist");
-
-        Market market = Market(marketAddr);
-
-        return market.balance();
+        return share * allFundDebt;
     }
 
     function deposit(uint256 marketId, uint256 amount) public {
