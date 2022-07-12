@@ -4,6 +4,3 @@
 [submodule "lib/ds-deed"]
 	path = lib/ds-deed
 	url = https://github.com/exp7l/ds-deed
-[submodule "lib/ds-token"]
-	path = lib/ds-token
-	url = https://github.com/exp7l/ds-token
