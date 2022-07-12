@@ -101,9 +101,11 @@ contract MarketManager {
         require(marketAddr != address(0), "market does not exist");
 
         int256 allFundDebt = totalFundDebt(marketId);
+        uint256 marketLiquidity = liquidity(marketId);
+        require(marketLiquidity > 0, "zero liquiity");
 
         uint256 share = marketToFundsToLiquidity[marketId][fundId] /
-            liquidity(marketId);
+            marketLiquidity;
 
         return int256(share) * allFundDebt;
     }
