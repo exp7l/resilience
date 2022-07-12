@@ -15,10 +15,6 @@ contract MarketManager {
 
     mapping(uint256 => address[]) public marketToFunds;
 
-    /// @dev marketId => fundId => supply target
-    mapping(uint256 => mapping(uint256 => uint256))
-        public marketToFundsToSupplyTargets;
-
     /// @dev marketId => fundId => liquidity
     mapping(uint256 => mapping(uint256 => uint256))
         public marketToFundsToLiquidity;
@@ -36,12 +32,6 @@ contract MarketManager {
         address indexed marketAddr
     );
 
-    event SupplyTargetSet(
-        uint256 indexed marketId,
-        uint256 indexed fundId,
-        uint256 indexed amount
-    );
-
     event LiquiditySet(
         uint256 indexed marketId,
         uint256 indexed fundId,
@@ -57,42 +47,6 @@ contract MarketManager {
 
         emit MarketRegistered(counter, marketAddr);
         counter += 1;
-    }
-
-    function setSupplyTarget(
-        uint256 marketId,
-        uint256 fundId,
-        uint256 amount
-    ) external {
-        address marketAddr = idToMarkets[marketId];
-        require(marketAddr != address(0), "market does not exist");
-        // TODO: fundId check
-
-        marketToFundsToSupplyTargets[marketId][fundId] = amount;
-
-        emit SupplyTargetSet(marketId, fundId, amount);
-    }
-
-    function supplyTarget(uint256 marketId)
-        external
-        returns (uint256 supplytarget)
-    {
-        address marketAddr = idToMarkets[marketId];
-        require(marketAddr != address(0), "market does not exist");
-
-        address[] memory funds = marketToFunds[marketId];
-        require(funds.length > 0, "no funds");
-
-        mapping(uint256 => uint256)
-            memory fundsToSupplyTargets = marketToFundsToSupplyTargets[
-                marketId
-            ];
-
-        for (uint256 i = 0; i < funds.length; i++) {
-            supplytarget += fundsToSupplyTargets[funds[i]];
-        }
-
-        return;
     }
 
     function setLiquidity(

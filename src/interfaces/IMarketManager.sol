@@ -4,15 +4,6 @@ pragma solidity ^0.8.13;
 interface IMarketManager {
     function registerMarket(address market) external returns (uint256);
 
-    // need to think about supply vs liquidity (maybe quantity vs quantity * price)
-    function setSupplyTarget(
-        uint256 marketId,
-        uint256 fundId,
-        uint256 amount
-    ) external;
-
-    function supplyTarget(uint256 marketId) external returns (uint256);
-
     function setLiquidity(
         uint256 marketId,
         uint256 fundId,
