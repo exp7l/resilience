@@ -13,8 +13,10 @@ contract RDB is Auth {
   address                   public fund;
   address                   public vault;
   address                   public rusd;
+  address                   public marketManager;
   mapping(address => uint)  public targetCratios;
-  mapping(address => uint)  public minCratios;  
+  mapping(address => uint)  public minCratios;
+  address                   public weth = address(0);
 
   // Approved asset types.
   mapping (address => bool) public approved;
@@ -56,7 +58,19 @@ contract RDB is Auth {
     external auth
   {
     rusd = _rusd;
-  }  
+  }
+
+  function setWETH(address _weth)
+    external auth
+  {
+    weth = _weth;
+  }
+
+  function setMarketManager(address _marketManager)
+    external auth
+  {
+    marketManager = _marketManager;
+  }      
 
   // USD are in 18 digit precisions.
   function assetUSDValue(address _erc20, uint _amount)

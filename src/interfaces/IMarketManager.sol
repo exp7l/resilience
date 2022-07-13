@@ -32,6 +32,11 @@ interface IMarketManager {
                      uint256 amount)
         external;
 
+    // TODO: finalize
+    // What are the alternatives? Withdraw rusd from:
+    // 1. vault
+    // 2. fund
+    // 3. transfer rusd to market manager, and disburse
     function withdraw( uint256 marketId,
                        uint256 amount,
                        address recipient)

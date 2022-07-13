@@ -26,6 +26,7 @@ struct MiniVaultRecord {
 }
 
 /*
+  0. Track each vault's (key: fundId, collateralType) RUSD position and each minivault (key: fundId, collateralType, deedId)
   1. A fund can have as many vaults as there are accepted collateals.
   2. Debt shares are tracked here, liqudatiation reward and debt responsibility are shared among deeds associated with the vault.
 
