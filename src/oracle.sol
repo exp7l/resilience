@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 contract Oracle {
-  function usdValue(uint _amount) external view returns (uint) {
-    revert("stub");
-  }
+    function usdValue(uint256 _amount) external view virtual returns (uint256) {
+        revert("stub");
+    }
 }
