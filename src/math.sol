@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-// Reference: https://github.com/dapphub/ds-math/blob/master/src/math.sol
-
 contract Math {
     uint constant WAD = 1e18;
 
@@ -24,3 +22,5 @@ contract Math {
         z = (x * WAD + y / 2) / y;
     }
 }
+
+// Reference: https://github.com/dapphub/ds-math/blob/master/src/math.sol
