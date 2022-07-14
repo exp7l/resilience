@@ -22,28 +22,33 @@ contract VaultTest is Test, Math {
         public
     {
         rdb            = new RDB();
-        deed           = new Deed(address(rdb));
-        deedId         = deed.mint("test");
-        fund           = new Fund(address(rdb));
-        fundId         = 1;    
-        vault          = new Vault(address(rdb));
-        erc20          = new DSToken("TEST-ERC20");
+
         rusd           = new DSToken("RUSD");
+        rdb.setRUSD(address(rusd));      
 
-        rusd.allow(address(vault));
-
+        deed           = new Deed(address(rdb));
+        deedId         = deed.mint("test");        
         rdb.setDeed(address(deed));
-        rdb.setFund(address(fund));
+        
+        vault          = new Vault(address(rdb));
         rdb.setVault(address(vault));
-        rdb.setRUSD(address(rusd));
+        rusd.allow(address(vault));        
 
+        fund           = new Fund(address(rdb));
+        fundId         = 1;        
+        rdb.setFund(address(fund));
+        
+        erc20          = new DSToken("TEST-ERC20");
         erc20.mint(type(uint128).max);
         erc20.approve(address(vault), type(uint).max);
+
+        console.log("vault.t.sol setUp");
     }
 
     function testDeposit(uint128 _collateralAmount)
         public
     {
+        console.log("testDeposit");
         vault.deposit(fundId, address(erc20), deedId, _collateralAmount);
         (,,, uint _amountAfter,,) = vault.miniVaults(fundId,
                                                      address(erc20),

@@ -25,6 +25,11 @@ struct MiniVaultRecord {
   uint    debtShares;  
 }
 
+interface IFund
+{
+    function rebalanceMarkets(uint fundId) external;
+}    
+
 /*
   0. Track each vault's (key: fundId, collateralType) RUSD position and each minivault (key: fundId, collateralType, deedId)
   1. A fund can have as many vaults as there are accepted collateals.
@@ -38,10 +43,10 @@ contract Vault is Auth, Math, Test {
 
   // Mirrors the sum of minivaults.
   //      fundId            collatealType
-  mapping(uint   => mapping(address  => VaultRecord))                              public vaults;
+  mapping(uint   => mapping(address  => VaultRecord)) public vaults;
 
   //      fundId            collateralType      deedId 
-  mapping(uint   => mapping(address  => mapping(uint => MiniVaultRecord)))        public miniVaults;
+  mapping(uint   => mapping(address  => mapping(uint => MiniVaultRecord))) public miniVaults;
 
   uint public initialDebtShares = 100 * 10 ** 18;
 
@@ -82,6 +87,8 @@ contract Vault is Auth, Math, Test {
                                                        address(this),
                                                        _collateralAmount);
     require(success, "ERR_TRANSFER");
+    console.log("deposit called");
+    IFund(rdb.fund()).rebalanceMarkets(_fundId);
   }
 
   function withdraw(uint _fundId,
@@ -98,6 +105,8 @@ contract Vault is Auth, Math, Test {
                                                        msg.sender,
                                                        _collateralAmount);
     require(success, "ERR_TRANSFER");
+    console.log("withdraw called");
+    IFund(rdb.fund()).rebalanceMarkets(_fundId);    
   }
 
   function _safeCratio(uint _fundId,
@@ -159,6 +168,8 @@ contract Vault is Auth, Math, Test {
     _mv.usdBalance += _usdAmount;
 
     require(_safeCratio(_fundId, _collateralType, _deedId));
+
+    console.log("1");
 
     ERC20(rdb.rusd()).mint(address(this), _usdAmount);
   }

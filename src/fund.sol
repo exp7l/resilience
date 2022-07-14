@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import "forge-std/Test.sol";
 import "./interfaces/erc20.sol";
 import "./interfaces/IMarketManager.sol";
 import "./math.sol";
@@ -16,13 +17,14 @@ import "./vault.sol";
   4. Allow for direct redemption?
 */
 
-contract Fund is Math {
+contract Fund is Math, Test {
   //       fundId
   mapping (uint => Appointment) public  appointments;
-  //       fundId    marketId
-  mapping (uint =>   uint[])    public  backings;
-  //       marketId  weight
-  mapping (uint =>   uint)      public  positions;
+
+  mapping (uint => uint[])                         public  backings;
+
+  //      fundId          marketId     weight
+  mapping (uint => mapping(uint     => uint))      public  fundWeights;
 
   RDB rdb;
 
@@ -37,8 +39,7 @@ contract Fund is Math {
     rdb = RDB(_rdb);
   }
 
-  function createFund(uint    _fundId,
-                      address _manager)
+  function createFund(uint    _fundId)
     external
   {
     Appointment memory _a = appointments[_fundId];
@@ -50,29 +51,35 @@ contract Fund is Math {
       nomination:  address(0)});
   }
 
-  // across all vaults
-  // send rUSD to market manager
-  // trigger on staking position - vault minting, set fund position
+  // trigger when staking position changes - vault minting, set fund position
   function rebalanceMarkets(uint _fundId)
     public
   {
-      require(msg.sender == rdb.vault() || msg.sender == appointments[_fundId].manager, "ERR_AUTH");
-      address _weth              = rdb.weth();
-      (,,,uint _totalLiquidity,) = Vault(rdb.vault()).vaults(_fundId, _weth);
+      console.log("rebalanceMarkets called!");
+      bool _isOwner   = msg.sender == rdb.vault();
+      bool _isManager = msg.sender == appointments[_fundId].manager;
+      require(_isOwner || _isManager, "ERR_AUTH");
 
-      uint[] storage _backings           = backings[_fundId];
+      // wETH is the only asset now, so total liquidity is wETH's
+      // vault USD balance.
+      address _weth              = rdb.weth();
+      Vault _v = Vault(rdb.vault());
+      (, , ,uint _totalLiquidity, ) = _v.vaults(_fundId, _weth);
+
+      uint[] storage _backings = backings[_fundId];
       uint   _totalWeight;
+
+      for (uint i=0; i < _backings.length; i++) {
+          _totalWeight += fundWeights[_fundId][_backings[i]];
+      }
+
       for (uint i=0; i < _backings.length; i++) {
           uint _marketId = _backings[i];
-          _totalWeight += positions[_marketId];
-      }
-      for (uint i=0; i < _backings.length; i++) {
-          uint _marketId = _backings[i];          
-          uint _factor  = wdiv(positions[_marketId], _totalWeight);
+          uint _factor  = wdiv(fundWeights[_fundId][_marketId], _totalWeight);
           uint _marketLiquidity = wmul(_totalLiquidity, _factor);
           IMarketManager(rdb.marketManager()).setLiquidity(_marketId,
-                                                          _fundId,
-                                                          _marketLiquidity);
+                                                           _fundId,
+                                                           _marketLiquidity);
       }
   }
   
@@ -83,11 +90,13 @@ contract Fund is Math {
   {
       require(msg.sender == appointments[_fundId].manager, "ERR_AUTH");
       require(_markets.length == _weights.length, "ERR_INPUT_LEN");
-      require(_markets.length <= 100, "ERR_INPUT_MAX_LEN");
+      require(_markets.length <= 100, "ERR_INPUT_LEN");
+
       for (uint i=0; i < _markets.length; i++) {
-          positions[_markets[i]] = _weights[i];
+          fundWeights[_fundId][_markets[i]] = _weights[i];
           backings[_fundId].push(_markets[i]);
       }
+
       rebalanceMarkets(_fundId);
   }
   
