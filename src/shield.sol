@@ -13,3 +13,5 @@ contract Shield
         _mutex = false;
     }
 }
+
+// Reference: https://github.com/balancer-labs/balancer-core
