@@ -4,39 +4,57 @@ pragma solidity ^0.8.13;
 import "ds-deed/deed.sol";
 import "./interfaces/erc20.sol";
 import "./rdb.sol";
+import "./shield.sol";
 
-contract Deed is DSDeed("Resilient Deed", "RDeed") {
+contract Deed is Shield, DSDeed("Resilient Deed", "RDeed")
+{
 
-  RDB rdb;
-  
-  //      deedId           asset              balance
-  mapping(uint   => mapping(address        => uint))   public cash;
+    RDB rdb;
+    // deedId => asset => balance
+    mapping(uint => mapping(address => uint)) public cash;
 		  
-  constructor(address _rdb) {
-	rdb = RDB(_rdb);
-  }
+    event Deposit (uint    indexed deedId,
+                   address indexed erc20,
+                   uint    indexed amount);
+    event Withdraw(uint    indexed deedId,
+                   address indexed erc20,
+                   uint    indexed amount);
 
-  function deposit(uint _deedId, address _erc20, uint _amount)
-    external
-  {
-    require(msg.sender == _deeds[_deedId].guy, "not-owner");
-	require(rdb.approved(_erc20), "not-approved");
-	cash[_deedId][_erc20] += _amount;    
-    ERC20(_erc20).transferFrom(msg.sender, address(this), _amount);
-  }
+    constructor(address _rdb)
+    {
+        rdb = RDB(_rdb);
+    }
+
+    function deposit(uint    _deedId,
+                     address _erc20,
+                     uint    _amount)
+        external
+        lock
+    {
+        require(msg.sender == _deeds[_deedId].guy, "ERR_AUTH");
+        require(rdb.approved(_erc20),              "ERR_APPROVAL");
+        cash[_deedId][_erc20] += _amount;
+        require(ERC20(_erc20).transferFrom(msg.sender,
+                                           address(this),
+                                           _amount),
+                "ERR_TRANSFER");
+        emit Deposit(_deedId, _erc20, _amount);
+    }
   
-  function withdraw(uint _deedId, address _erc20, uint _amount)
-    external
-  {
-    require(msg.sender == _deeds[_deedId].guy, "not-owner");
-    require(cash[_deedId][_erc20] >= _amount, "not-sufficient-fund");
-	cash[_deedId][_erc20] -= _amount;
-	ERC20(_erc20).transferFrom(address(this), msg.sender, _amount);
-  } 
+    function withdraw(uint    _deedId,
+                      address _erc20,
+                      uint    _amount)
+        external
+        lock
+    {
+        require(msg.sender == _deeds[_deedId].guy, "ERR_AUTH");
+        require(cash[_deedId][_erc20] >= _amount,  "ERR_NSF");
+        require(rdb.approved(_erc20),              "ERR_APPROVAL");
+        cash[_deedId][_erc20] -= _amount;
+        require(ERC20(_erc20).transferFrom(address(this),
+                                           msg.sender,
+                                           _amount),
+                "ERR_TRANSFER");
+        emit Withdraw(_deedId, _erc20, _amount);
+    }
 }
-
-/*
-Todos:
-1. Check ERC20 transfer balance before and after.
-2. Are there decomposable rights that would be useful to grant on the deed?
-*/
