@@ -13,7 +13,7 @@ contract Auth {
   event Deny(address indexed principal);
   
   modifier auth {
-	require(authorized[msg.sender] == 1, "not-authorized");
+	require(authorized[msg.sender] == 1, "ERR_AUTH");
 	_;
   }
 
