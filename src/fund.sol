@@ -2,11 +2,11 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import "./interfaces/erc20.sol";
+import "./interfaces/ierc20.sol";
+import "./interfaces/ivault.sol";
 import "./interfaces/IMarketManager.sol";
 import "./math.sol";
 import "./rdb.sol";
-import "./vault.sol";
 
 /*
   Scope:
@@ -55,7 +55,7 @@ contract Fund is Math, Test {
   function rebalanceMarkets(uint _fundId)
     public
   {
-      console.log("rebalanceMarkets called!");
+
       bool _isOwner   = msg.sender == rdb.vault();
       bool _isManager = msg.sender == appointments[_fundId].manager;
       require(_isOwner || _isManager, "ERR_AUTH");
@@ -63,7 +63,7 @@ contract Fund is Math, Test {
       // wETH is the only asset now, so total liquidity is wETH's
       // vault USD balance.
       address _weth              = rdb.weth();
-      Vault _v = Vault(rdb.vault());
+      IVault _v = IVault(rdb.vault());
       (, , ,uint _totalLiquidity, ) = _v.vaults(_fundId, _weth);
 
       uint[] storage _backings = backings[_fundId];

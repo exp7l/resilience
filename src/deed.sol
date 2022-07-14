@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "ds-deed/deed.sol";
-import "./interfaces/erc20.sol";
+import "./interfaces/ierc20.sol";
 import "./rdb.sol";
 import "./shield.sol";
 
@@ -34,7 +34,7 @@ contract Deed is Shield, DSDeed("Resilient Deed", "RDeed")
         require(msg.sender == _deeds[_deedId].guy, "ERR_AUTH");
         require(rdb.approved(_erc20),              "ERR_APPROVAL");
         cash[_deedId][_erc20] += _amount;
-        require(ERC20(_erc20).transferFrom(msg.sender,
+        require(IERC20(_erc20).transferFrom(msg.sender,
                                            address(this),
                                            _amount),
                 "ERR_TRANSFER");
@@ -51,7 +51,7 @@ contract Deed is Shield, DSDeed("Resilient Deed", "RDeed")
         require(cash[_deedId][_erc20] >= _amount,  "ERR_NSF");
         require(rdb.approved(_erc20),              "ERR_APPROVAL");
         cash[_deedId][_erc20] -= _amount;
-        require(ERC20(_erc20).transferFrom(address(this),
+        require(IERC20(_erc20).transferFrom(address(this),
                                            msg.sender,
                                            _amount),
                 "ERR_TRANSFER");

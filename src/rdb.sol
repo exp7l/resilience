@@ -4,24 +4,21 @@ pragma solidity ^0.8.13;
 import "./auth.sol";
 import "./oracle.sol";
 import "./math.sol";
-import "./deed.sol";
 
 // Grab bag of runtime data - Runtime Database
 
 contract RDB is Auth {
-  address                   public deed;
-  address                   public fund;
-  address                   public vault;
-  address                   public rusd;
-  address                   public marketManager;
-  mapping(address => uint)  public targetCratios;
-  mapping(address => uint)  public minCratios;
-  address                   public weth = address(0);
-
-  // Approved asset types.
-  mapping (address => bool) public approved;
-
-  //       erc20      oracle
+  address                      public deed;
+  address                      public fund;
+  address                      public vault;
+  address                      public rusd;
+  address                      public marketManager;
+  address                      public weth = address(0);
+  mapping(address => uint)     public targetCratios;
+  mapping(address => uint)     public minCratios;
+  // Approved asset types.     
+  mapping (address => bool)    public approved;
+  // erc20 => oracle
   mapping (address => address) public oracles;
 
   function approve(address _erc20)

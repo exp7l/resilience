@@ -2,14 +2,14 @@
 pragma solidity ^0.8.13;
 
 import "./math.sol";
-import "./interfaces/erc20.sol";
+import "./interfaces/ierc20.sol";
 import "./interfaces/IMarketManager.sol";
 import "./Market.sol";
 import "./fund.sol";
 
 contract MarketManager is IMarketManager, Math {
     uint256 counter;
-    ERC20 public susd;
+    IERC20 public susd;
     Fund public fundsRegistry;
 
     mapping(uint256 => address) idToMarkets;
@@ -27,7 +27,7 @@ contract MarketManager is IMarketManager, Math {
 
     constructor(address _susdAddr, address _fundsRegistryAddr) {
         counter = 1;
-        susd = ERC20(_susdAddr);
+        susd = IERC20(_susdAddr);
         fundsRegistry = Fund(_fundsRegistryAddr);
     }
 

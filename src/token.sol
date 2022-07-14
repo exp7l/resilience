@@ -94,13 +94,26 @@ contract DSToken is Auth {
         burn(msg.sender, wad);
     }
 
-    function mint(address guy, uint wad) public auth stoppable {
+    function mint(address guy,
+                  uint wad)
+        public
+        auth
+        stoppable
+        returns (bool)
+    {
         balanceOf[guy] = balanceOf[guy] + wad;
         totalSupply = totalSupply + wad;
         emit Mint(guy, wad);
+        return true;
     }
 
-    function burn(address guy, uint wad) public auth stoppable {
+    function burn(address guy,
+                  uint wad)
+        public
+        auth
+        stoppable
+        returns (bool)
+    {
         if (guy != msg.sender && allowance[guy][msg.sender] != type(uint).max) {
             require(allowance[guy][msg.sender] >= wad, "ds-token-insufficient-approval");
             allowance[guy][msg.sender] = allowance[guy][msg.sender] - wad;
@@ -110,6 +123,7 @@ contract DSToken is Auth {
         balanceOf[guy] = balanceOf[guy] - wad;
         totalSupply = totalSupply - wad;
         emit Burn(guy, wad);
+        return true;
     }
 
     function setName(string memory name_) public auth {

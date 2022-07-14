@@ -32,31 +32,34 @@ contract VaultTest is Test, Math {
         
         vault          = new Vault(address(rdb));
         rdb.setVault(address(vault));
-        rusd.allow(address(vault));        
+        // For mint.
+        rusd.allow(address(vault));
 
         fund           = new Fund(address(rdb));
         fundId         = 1;        
         rdb.setFund(address(fund));
         
         erc20          = new DSToken("TEST-ERC20");
+        // Give test contract test tokens.
         erc20.mint(type(uint128).max);
         erc20.approve(address(vault), type(uint).max);
-
-        console.log("vault.t.sol setUp");
     }
 
-    function testDeposit(uint128 _collateralAmount)
+    function testDeposit(uint128 _camount)
         public
     {
-        console.log("testDeposit");
-        vault.deposit(fundId, address(erc20), deedId, _collateralAmount);
-        (,,, uint _amountAfter,,) = vault.miniVaults(fundId,
-                                                     address(erc20),
-                                                     deedId);
-        assertEq(_amountAfter, _collateralAmount);
+        vault.deposit(fundId, address(erc20), deedId, _camount);
+        (,,, uint _camountSVault,,) = vault.svaults(fundId,
+                                                    address(erc20),
+                                                    deedId);
+        assertEq(_camountSVault, _camount);
+        (,,uint _camountBVault,,) = vault.bvaults(fundId,
+                                                  address(erc20));
+        assertEq(_camountBVault, _camount);
+                                             
     }
 
-    function testWithdraw(uint128 _collateralAmount)
+    function testWithdraw(uint128 _camount)
         public
     {
         vm.mockCall(address(rdb),
@@ -66,13 +69,16 @@ contract VaultTest is Test, Math {
                     abi.encodeWithSelector(rdb.targetCratios.selector),
                     abi.encode(0));
 	
-        vault.deposit(fundId, address(erc20), deedId, _collateralAmount);
-        uint _withdrawal = wmul(_collateralAmount, 0.3 * 10 ** 18);
+        vault.deposit(fundId, address(erc20), deedId, _camount);
+        uint _withdrawal = wmul(_camount, 0.3 * 10 ** 18);
         vault.withdraw(fundId, address(erc20), deedId, _withdrawal);
-        (, , , uint _amountAfter, ,) = vault.miniVaults(fundId,
-                                                        address(erc20),
-                                                        deedId);
-        assertEq(_amountAfter, _collateralAmount - _withdrawal);
+        (, , , uint _camountSVault, ,) = vault.svaults(fundId,
+                                                       address(erc20),
+                                                       deedId);
+        assertEq(_camountSVault, _camount - _withdrawal);
+        (, , uint _camountBVault, ,) = vault.bvaults(fundId,
+                                                     address(erc20));
+        assertEq(_camountBVault, _camount - _withdrawal);        
     }
 
     function testMint(uint128 _usdAmount)
@@ -88,11 +94,18 @@ contract VaultTest is Test, Math {
 
         vault.deposit(fundId, address(erc20), deedId, type(uint128).max);
         vault.mint(fundId, address(erc20), deedId, _usdAmount);
-        (,,,,uint _vUSDAmount,uint _vDebtShares) = vault.miniVaults(fundId,
-                                                                    address(erc20),
-                                                                    deedId);
-        assertEq(_vDebtShares,        vault.initialDebtShares());
-        assertEq(_vUSDAmount,         _usdAmount);
+        (,,,,uint _svUSDAmount,uint _svDebtShares) = vault.svaults(fundId,
+                                                                   address(erc20),
+                                                                   deedId);
+        assertEq(_svDebtShares,        vault.initialDebtShares());
+        assertEq(_svUSDAmount,         _usdAmount);
+
+        (,,,uint _bvUSDAmount,uint _bvDebtShares) = vault.bvaults(fundId,
+                                                                  address(erc20));
+                                                            
+        assertEq(_bvDebtShares,        vault.initialDebtShares());
+        assertEq(_bvUSDAmount,         _usdAmount);
+
         assertEq(rusd.totalSupply(),  _usdAmount);
     }
 
@@ -111,12 +124,19 @@ contract VaultTest is Test, Math {
         vault.mint(fundId, address(erc20), deedId, _usdAmount);
         vault.mint(fundId, address(erc20), deedId, _usdAmount);
 
-        (,,,,uint _vUSDAmount,uint _vDebtShares) = vault.miniVaults(fundId,
-                                                                    address(erc20),
-                                                                    deedId);
+        (,,,,uint _svUSDAmount,uint _svDebtShares) = vault.svaults(fundId,
+                                                                 address(erc20),
+                                                                 deedId);
 
-        assertEq(_vDebtShares / 2       , vault.initialDebtShares());
-        assertEq(_vUSDAmount  / 2       , _usdAmount);
+        assertEq(_svDebtShares / 2       , vault.initialDebtShares());
+        assertEq(_svUSDAmount  / 2       , _usdAmount);
+
+        (,,,uint _bvUSDAmount,uint _bvDebtShares) = vault.bvaults(fundId,
+                                                                   address(erc20));
+
+        assertEq(_bvDebtShares / 2       , vault.initialDebtShares());
+        assertEq(_bvUSDAmount  / 2       , _usdAmount);
+
         assertEq(rusd.totalSupply() / 2 , _usdAmount);
         // TODO: What does state change not apply after this point?
     }
@@ -138,15 +158,19 @@ contract VaultTest is Test, Math {
         uint _divisor = _usdAmount % 2 == 0 ? 2 : 1;
         vault.burn(fundId, address(erc20), deedId, _usdAmount / _divisor);
 
-        (,,,,uint _mvUSDAmount,uint _mvDebtShares) = vault.miniVaults(fundId,
-                                                                      address(erc20),
-                                                                      deedId);
-        (,,,uint _vUSDAmount,uint _vDebtShares) = vault.vaults(fundId,
-                                                               address(erc20));	
+        (,,,,uint _svUSDAmount,uint _svDebtShares) = vault.svaults(fundId,
+                                                                   address(erc20),
+                                                                   deedId);
+        (,,,uint _bvUSDAmount,uint _bvDebtShares) = vault.bvaults(fundId,
+                                                                 address(erc20));	
 
         uint _init = vault.initialDebtShares();
-        assertEq(_mvDebtShares     , _init - _init / _divisor);
-        assertEq(_mvUSDAmount      , _usdAmount - _usdAmount / _divisor);
+        assertEq(_svDebtShares     , _init - _init / _divisor);
+        assertEq(_svUSDAmount      , _usdAmount - _usdAmount / _divisor);
+
+        assertEq(_bvDebtShares     , _init - _init / _divisor);
+        assertEq(_bvUSDAmount      , _usdAmount - _usdAmount / _divisor);
+        
         assertEq(rusd.totalSupply(), _usdAmount - _usdAmount / _divisor);
     }
 }

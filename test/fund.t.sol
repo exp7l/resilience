@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 import "../src/interfaces/IMarketManager.sol";
+import "../src/interfaces/ivault.sol";
 import "../src/rdb.sol";
 import "../src/fund.sol";
 import "../src/vault.sol";

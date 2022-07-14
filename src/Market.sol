@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "./math.sol";
-import "./interfaces/erc20.sol";
+import "./interfaces/ierc20.sol";
 import "./oracle.sol";
 import "./interfaces/IMarket.sol";
 import "./interfaces/IMarketManager.sol";
@@ -12,7 +12,7 @@ import "./interfaces/ISynth.sol";
 contract Market is IMarket, Math {
     /// @dev synth erc20 contract address, assumes synth will only be used in this market
     ISynth public synth;
-    ERC20 public susd;
+    IERC20 public susd;
     Oracle public priceOracle;
 
     MarketManager public marketManager;
@@ -27,7 +27,7 @@ contract Market is IMarket, Math {
         uint256 _fee
     ) {
         synth = ISynth(_synthAddr);
-        susd = ERC20(_susdAddr);
+        susd = IERC20(_susdAddr);
         marketManager = MarketManager(_marketManagerAddr);
         priceOracle = Oracle(_priceOracleAddr);
         fee = _fee;
