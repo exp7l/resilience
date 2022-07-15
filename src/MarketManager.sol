@@ -6,6 +6,7 @@ import "./interfaces/ierc20.sol";
 import "./interfaces/IMarketManager.sol";
 import "./Market.sol";
 import "./fund.sol";
+import "./rdb.sol";
 
 contract MarketManager is IMarketManager, Math {
     uint256 counter;
@@ -25,10 +26,13 @@ contract MarketManager is IMarketManager, Math {
     /// @dev marketId => external liquidity (susd deposited to swap to synth by traders)
     mapping(uint256 => uint256) public marketToExternalLiquidity;
 
-    constructor(address _susdAddr, address _fundsRegistryAddr) {
+    RDB rdb;
+
+    constructor(address _susdAddr, address _fundsRegistryAddr, address _rdb) {
         counter = 1;
         susd = IERC20(_susdAddr);
         fundsRegistry = Fund(_fundsRegistryAddr);
+        rdb           = RDB(_rdb);
     }
 
     event MarketRegistered(
@@ -148,7 +152,8 @@ contract MarketManager is IMarketManager, Math {
         );
 
         /// @dev ransfers the appropriate amount of sUSD from the market manager the withdraw() function to msg.sender (in market.sol's sell() function).
-        bool success = susd.transferFrom(address(this), recipient, amount);
+        /// Note that the sUSD/rUSD is actually held at the Vault contract!
+        bool success = susd.transferFrom(address(rdb.vault()), recipient, amount);
         require(success, "ERC20: failed to transfer");
     }
 }

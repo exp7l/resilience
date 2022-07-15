@@ -72,7 +72,9 @@ contract Vault is Auth, Math, Shield {
     {
         rdb           = RDB(_rdb);
         IERC20 _rusd  = IERC20(rdb.rusd());
-        _rusd.approve(rdb.fund(), type(uint).max);
+        // Grant other contracts in the system access to rUSD
+        _rusd.approve(rdb.fund(),          type(uint).max);
+        _rusd.approve(rdb.marketManager(), type(uint).max);
     }
 
     function _createVaults(uint    _fundId,
