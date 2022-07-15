@@ -64,7 +64,6 @@ contract MarketManager is IMarketManager, Math {
     ) external returns (uint256) {
         address marketAddr = idToMarkets[marketId];
         require(marketAddr != address(0), "market does not exist");
-        (, address fundManager, ) = fundsRegistry.appointments(fundId);
         require(
             rdb.vault() == msg.sender,
             "only the Vault contract can set liquidity"
