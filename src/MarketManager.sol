@@ -66,8 +66,8 @@ contract MarketManager is IMarketManager, Math {
         require(marketAddr != address(0), "market does not exist");
         (, address fundManager, ) = fundsRegistry.appointments(fundId);
         require(
-            fundManager == msg.sender,
-            "only fund manager can set liquidity"
+            address(rdb.vault()) == msg.sender,
+            "only the Vault contract can set liquidity"
         );
 
         emit LiquiditySet(marketId, fundId, amount);
