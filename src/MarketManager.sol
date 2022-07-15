@@ -66,7 +66,7 @@ contract MarketManager is IMarketManager, Math {
         require(marketAddr != address(0), "market does not exist");
         (, address fundManager, ) = fundsRegistry.appointments(fundId);
         require(
-            address(rdb.vault()) == msg.sender,
+            rdb.vault() == msg.sender,
             "only the Vault contract can set liquidity"
         );
 
@@ -153,7 +153,7 @@ contract MarketManager is IMarketManager, Math {
 
         /// @dev ransfers the appropriate amount of sUSD from the market manager the withdraw() function to msg.sender (in market.sol's sell() function).
         /// Note that the sUSD/rUSD is actually held at the Vault contract!
-        bool success = susd.transferFrom(address(rdb.vault()), recipient, amount);
+        bool success = susd.transferFrom(rdb.vault(), recipient, amount);
         require(success, "ERC20: failed to transfer");
     }
 }
