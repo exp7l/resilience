@@ -22,15 +22,25 @@ contract MarketTest is Test {
     MockOracle mockOracle;
     Market market;
 
+    address user1;
+
     function setUp() public {
+        user1 = vm.addr(1);
+        vm.deal(user1, 1 ether);
+
         rdb = new RDB();
         fundRegistry = new Fund(address(rdb));
         synth = new DSToken("synth");
-        marketManager = new MarketManager(
-            address(synth),
-            address(fundRegistry)
-        );
+
         susd = new DSToken("susd");
+        // susd.allow(user1);
+        susd.mint(user1, 1 ether);
+
+        marketManager = new MarketManager(address(susd), address(fundRegistry));
+
+        vm.prank(user1);
+        susd.approve(address(marketManager), 1 ether);
+
         mockOracle = new MockOracle(SYNTH_PRICE);
         market = new Market(
             address(synth),
@@ -39,8 +49,25 @@ contract MarketTest is Test {
             address(mockOracle),
             FEE
         );
+
+        marketManager.registerMarket(address(market));
     }
 
     function testBalanceInitial() public {
         assertEq(market.balance(), 0);
     }
+
+    function testDepositOneSUSD() public {
+        console.log(1);
+        uint256 allowanceForUser = susd.allowance(
+            user1,
+            address(marketManager)
+        );
+        console.log(allowanceForUser);
+
+        vm.prank(address(market), user1);
+        marketManager.deposit(1, 1 ether);
+
+        // TODO
+    }
+}
