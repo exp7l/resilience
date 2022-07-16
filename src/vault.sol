@@ -126,7 +126,11 @@ contract Vault is Auth, Math, Shield {
     {
         bvaults[_fundId][_ctype].camount -= _camount;
         svaults[_fundId][_ctype][_deedId].camount -= _camount;
-        require(_metTargetCratio(_fundId, _ctype, _deedId), "ERR_WITHDRAW");
+        require(_metCratioReq(_fundId,
+                              _ctype,
+                              _deedId,
+                              rdb.targetCratios(_ctype)),
+                "ERR_CRATIO");
         require(IERC20(_ctype).transferFrom(address(this),
                                             msg.sender,
                                             _camount),
@@ -137,9 +141,10 @@ contract Vault is Auth, Math, Shield {
                       _camount);
     }
 
-    function _metTargetCratio(uint    _fundId,
-                         address _ctype,
-                         uint    _deedId)
+    function _metCratioReq(uint    _fundId,
+                           address _ctype,
+                           uint    _deedId,
+                           uint    _cratioReq)
         internal
         returns (bool)
     {
@@ -147,9 +152,8 @@ contract Vault is Auth, Math, Shield {
         if (_svault.usd == 0) return true;        
         uint _collateralUSD = rdb.assetUSDValue(_ctype, _svault.camount);
         uint cratioSVault   = wdiv(_collateralUSD, _svault.usd);
-        uint cratioFloor    = rdb.targetCratios(_ctype);
-        return cratioSVault >= cratioFloor;
-    }    
+        return cratioSVault >= _cratioReq;
+    }
 
     function mint(uint    _fundId,
                   address _ctype,
@@ -182,7 +186,11 @@ contract Vault is Auth, Math, Shield {
         _bv.usd += _usd;
         _sv.usd += _usd;
 
-        require(_metTargetCratio(_fundId, _ctype, _deedId));
+        require(_metCratioReq(_fundId,
+                              _ctype,
+                              _deedId,
+                              rdb.targetCratios(_ctype)),
+                "ERR_CRATIO");
 
         IERC20(rdb.rusd()).mint(address(this), _usd);
 
@@ -257,5 +265,44 @@ contract Vault is Auth, Math, Shield {
         external
         view
     {
+    }
+
+    /* 
+       Will revisit this in-depth. 
+       For now, the liquidation mechanic is simply allowing liquidator
+       to redeem collateral in a small vault at a steep (30%) discount, for simplicity.
+
+       The SIP proposes debt&collateral socialization among small vaults in the same big vault. I think this can be the final backstop, but I think require some more thinking in relationship to other pieces, as well as redemption for collateral at the big vault level.
+     */
+    function liquidatePosition(uint     _fundId,
+                               address  _ctype,
+                               uint     _deedId,
+                               uint     _usd)
+        external
+        lock
+    {
+        require(_metCratioReq(_fundId,
+                              _ctype,
+                              _deedId,
+                              rdb.minCratios(_ctype)),
+                "ERR_CRATIO");
+        // How much of debt held by this small vault is covered by _usd?
+        SVault storage _svault = svaults[_fundId][_ctype][_deedId];
+        uint _collateralUSD    = rdb.assetUSDValue(_ctype, _svault.camount);
+        require(_collateralUSD > 0, "ERR_EMPTY_SVAULT");
+        uint _factor           = wdiv(_usd, _collateralUSD);
+        uint _shareDiff        = wmul(_factor, _svault.debtShares);
+
+        // deduct debt shares from the small vault as it is paid
+        _svault.debtShares    -= _shareDiff;
+        
+        // burn USD
+        IERC20(rdb.rusd()).burn(address(this), _usd);
+        
+        // transfer collateral to liquidator at discount
+        uint _discount    = rdb.positionLiqudationDiscount(_ctype);
+        uint _transferAmt = wdiv(WAD, WAD - _discount);
+        require(IERC20(_ctype).transfer(msg.sender, _transferAmt),
+                "ERR_TRANSFER");
     }
 }

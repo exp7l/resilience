@@ -14,12 +14,17 @@ contract RDB is Auth {
   address                      public rusd;
   address                      public marketManager;
   address                      public weth = address(0);
+  // collateral => c-ratio
   mapping(address => uint)     public targetCratios;
+  // collateral => c-ratio
+  mapping(address => uint)     public minCratios;
   mapping(address => uint)     public minCratios;
   // Approved asset types.     
   mapping (address => bool)    public approved;
   // erc20 => oracle
   mapping (address => address) public oracles;
+  // erc20 => liqudation discount in decimal in WAD eg. 0.3 * WAD
+  mapping (address  => uint)   public positionLiqudationDiscount;
 
   function approve(address _erc20)
     external auth
