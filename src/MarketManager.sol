@@ -129,6 +129,7 @@ contract MarketManager is IMarketManager, Math {
         require(msg.sender == marketAddr, "market is not caller");
 
         /// @dev Transfers the specified amount of sUSD from msg.sender (in market.sol's buy() function) to market manager with the deposit() function.
+        // TODO: tx.origin or msg.sender?
         bool success = susd.transferFrom(tx.origin, address(this), amount);
         require(success, "ERC20: failed to transfer");
 
