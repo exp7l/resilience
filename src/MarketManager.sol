@@ -53,6 +53,18 @@ contract MarketManager is IMarketManager, Math {
         counter += 1;
     }
 
+    function registerFundInMarket(uint256 marketId, uint256 fundId) public {
+        address marketAddr = idToMarkets[marketId];
+        require(marketAddr != address(0), "market does not exist");
+        (, address fundManager, ) = fundsRegistry.appointments(fundId);
+        require(
+            fundManager == msg.sender,
+            "only fund manager can register in market"
+        );
+
+        marketToFunds[marketId].push(fundId);
+    }
+
     function setLiquidity(
         uint256 marketId,
         uint256 fundId,
