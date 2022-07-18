@@ -111,7 +111,9 @@ contract MarketManager is IMarketManager, Math {
 
         int256 allFundDebt = totalFundDebt(marketId);
         uint256 marketLiquidity = liquidity(marketId);
-        require(marketLiquidity > 0, "zero liquiity");
+        if (marketLiquidity == 0) {
+            return 0;
+        }
 
         uint256 share = wdiv(
             marketToFundsToLiquidity[marketId][fundId],
