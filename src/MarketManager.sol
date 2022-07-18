@@ -77,6 +77,10 @@ contract MarketManager is IMarketManager, Math {
             fundManager == msg.sender,
             "only fund manager can set liquidity"
         );
+        require(
+            checkInArr(marketToFunds[marketId], fundId),
+            "fund not registered"
+        );
 
         marketToFundsToLiquidity[marketId][fundId] = amount;
 
@@ -165,5 +169,19 @@ contract MarketManager is IMarketManager, Math {
         /// @dev ransfers the appropriate amount of sUSD from the market manager the withdraw() function to msg.sender (in market.sol's sell() function).
         bool success = susd.transferFrom(address(this), recipient, amount);
         require(success, "ERC20: failed to transfer");
+    }
+
+    function checkInArr(uint256[] memory arr, uint256 elem)
+        private
+        pure
+        returns (bool)
+    {
+        for (uint256 i = 0; i < arr.length; i++) {
+            if (arr[i] == elem) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
