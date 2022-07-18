@@ -1,22 +1,20 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-contract Auth
-{
-    bool                             public   stopped;
-    mapping (address => uint)        public   authorized;
-  
+contract Auth {
+    bool public stopped;
+    mapping(address => uint256) public authorized;
     event Stop();
     event Start();
     event Allow(address indexed principal);
     event Deny(address indexed principal);
-  
-    modifier auth {
+
+    modifier auth() {
         require(authorized[msg.sender] == 1, "ERR_AUTH");
         _;
     }
 
-    modifier stoppable {
+    modifier stoppable() {
         require(!stopped, "stopped");
         _;
     }
