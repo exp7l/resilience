@@ -50,6 +50,10 @@ contract Market is IMarket, Math {
         uint256 marketId = marketManager.marketsToId(address(this));
         marketManager.deposit(marketId, amountLeftToPurchase);
 
+        // @dev send fees here first
+        bool success = susd.transferFrom(tx.origin, address(this), fees);
+        require(success, "ERC20: failed to transfer");
+
         synth.mint(msg.sender, synthAmount);
     }
 
