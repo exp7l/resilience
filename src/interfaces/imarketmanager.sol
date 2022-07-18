@@ -13,9 +13,7 @@ interface IMarketManager {
     function liquidity(uint256 marketId) external returns (uint256);
 
     // fund's debt incurred by underwriting a `buy` for `resBTC`
-    function fundDebt(uint256 marketId, uint256 fundId)
-        external
-        returns (int256);
+    function fundDebt(uint256 marketId, uint256 fundId) external view  returns (int256);
 
     // fund's debts across all markets
     function totalFundDebt(uint256 marketId) external returns (int256);

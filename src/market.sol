@@ -4,9 +4,9 @@ pragma solidity ^0.8.13;
 import "./math.sol";
 import "./interfaces/ierc20.sol";
 import "./oracle.sol";
-import "./interfaces/IMarket.sol";
-import "./interfaces/IMarketManager.sol";
-import "./MarketManager.sol";
+import "./interfaces/imarket.sol";
+import "./interfaces/imarketmanager.sol";
+import "./marketmanager.sol";
 import "./interfaces/ISynth.sol";
 
 contract Market is IMarket, Math {
@@ -55,6 +55,7 @@ contract Market is IMarket, Math {
 
     // TODO send fees somewhere
     function sell(uint256 amount) external {
+        synth.burn(msg.sender, amount);
         synth.burn(msg.sender, amount);
 
         uint256 susdAmount = wmul(amount, priceOracle.usdValue(1));

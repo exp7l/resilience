@@ -3,8 +3,8 @@ pragma solidity ^0.8.13;
 
 import "./math.sol";
 import "./interfaces/ierc20.sol";
-import "./interfaces/IMarketManager.sol";
-import "./Market.sol";
+import "./interfaces/imarketmanager.sol";
+import "./market.sol";
 import "./fund.sol";
 import "./rdb.sol";
 
