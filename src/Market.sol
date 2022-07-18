@@ -68,5 +68,13 @@ contract Market is IMarket, Math {
 
         uint256 marketId = marketManager.marketsToId(address(this));
         marketManager.withdraw(marketId, susdAmountLeft, msg.sender);
+
+        // @dev send fees here first
+        bool success = susd.transferFrom(
+            address(marketManager),
+            address(this),
+            fees
+        );
+        require(success, "ERC20: failed to transfer");
     }
 }
