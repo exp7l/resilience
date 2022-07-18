@@ -66,6 +66,8 @@ contract MarketManager is IMarketManager, Math {
             "only fund manager can set liquidity"
         );
 
+        marketToFundsToLiquidity[marketId][fundId] = amount;
+
         emit LiquiditySet(marketId, fundId, amount);
 
         return amount;
