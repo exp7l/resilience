@@ -22,18 +22,27 @@ contract MarketTest is Test {
     MockOracle mockOracle;
     Market market;
 
+    uint256 marketId1 = 1;
+    uint256 fundId1 = 1;
+
     address user1;
+    address fundManager1;
 
     function setUp() public {
         user1 = vm.addr(1);
         vm.deal(user1, 1 ether);
 
+        fundManager1 = vm.addr(2);
+        vm.deal(fundManager1, 1 ether);
+
         rdb = new RDB();
         fundRegistry = new Fund(address(rdb));
+
+        vm.prank(fundManager1);
+        fundRegistry.createFund(1);
         synth = new DSToken("synth");
 
         susd = new DSToken("susd");
-        // susd.allow(user1);
         susd.mint(user1, 1 ether);
 
         marketManager = new MarketManager(address(susd), address(fundRegistry));
@@ -51,23 +60,73 @@ contract MarketTest is Test {
         );
 
         marketManager.registerMarket(address(market));
+
+        vm.prank(fundManager1);
+        marketManager.registerFundInMarket(marketId1, fundId1);
     }
 
     function testBalanceInitial() public {
         assertEq(market.balance(), 0);
     }
 
-    function testDepositOneSUSD() public {
-        console.log(1);
-        uint256 allowanceForUser = susd.allowance(
-            user1,
-            address(marketManager)
+    function testLiquidityInitial() public {
+        assertEq(marketManager.liquidity(marketId1), 0);
+    }
+
+    function testTotalFundDebtInitial() public {
+        assertEq(marketManager.totalFundDebt(marketId1), 0);
+    }
+
+    function testFundDebtInitial() public {
+        assertEq(marketManager.fundDebt(marketId1, fundId1), 0);
+    }
+
+    function testRegisterMarket() public {
+        address marketAddr = vm.addr(3);
+
+        marketManager.registerMarket(marketAddr);
+        assertEq(marketManager.counter(), 3);
+    }
+
+    function testSetLiquidity() public {
+        uint256 amount = 1 ether;
+        vm.prank(fundManager1);
+        marketManager.setLiquidity(marketId1, fundId1, amount);
+
+        assertEq(
+            marketManager.marketToFundsToLiquidity(marketId1, fundId1),
+            amount
         );
-        console.log(allowanceForUser);
+        assertEq(marketManager.liquidity(marketId1), amount);
+    }
+
+    function testDeposit() public {
+        uint256 marketId = 1;
+        uint256 externalLiquidity = 1 ether;
 
         vm.prank(address(market), user1);
-        marketManager.deposit(1, 1 ether);
+        marketManager.deposit(marketId, externalLiquidity);
 
-        // TODO
+        assertEq(
+            marketManager.marketToExternalLiquidity(marketId),
+            externalLiquidity
+        );
+        assertEq(susd.balanceOf(user1), 0);
+        assertEq(susd.balanceOf(address(marketManager)), externalLiquidity);
+    }
+
+    function testWithdraw() public {
+        uint256 marketId = 1;
+        uint256 externalLiquidity = 1 ether;
+        uint256 amount = 1 ether;
+
+        vm.prank(address(market), user1);
+        marketManager.deposit(marketId, externalLiquidity);
+        vm.prank(address(market), user1);
+        marketManager.withdraw(marketId, amount, user1);
+
+        assertEq(marketManager.marketToExternalLiquidity(marketId), 0);
+        assertEq(susd.balanceOf(user1), amount);
+        assertEq(susd.balanceOf(address(marketManager)), 0);
     }
 }
