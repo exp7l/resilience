@@ -2,8 +2,11 @@
 pragma solidity ^0.8.13;
 
 contract Auth {
+
     bool public stopped;
+
     mapping(address => uint256) public authorized;
+
     event Stop();
     event Start();
     event Allow(address indexed principal);
