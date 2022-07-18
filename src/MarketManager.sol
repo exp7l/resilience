@@ -80,7 +80,6 @@ contract MarketManager is IMarketManager, Math {
         require(marketAddr != address(0), "market does not exist");
 
         uint256[] memory funds = marketToFunds[marketId];
-        require(funds.length > 0, "no funds");
 
         for (uint256 i = 0; i < funds.length; i++) {
             uint256 fundId = funds[i];
