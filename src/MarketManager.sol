@@ -8,7 +8,7 @@ import "./Market.sol";
 import "./fund.sol";
 
 contract MarketManager is IMarketManager, Math {
-    uint256 counter;
+    uint256 public counter;
     IERC20 public susd;
     Fund public fundsRegistry;
 
