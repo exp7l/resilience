@@ -7,11 +7,8 @@ import "./rdb.sol";
 import "./shield.sol";
 
 contract Deed is Shield, DSDeed("Resilient Deed", "RDeed") {
-
     RDB rdb;
-
     mapping(uint256 => mapping(address => uint256)) public cash;
-
     event Deposit(
         uint256 indexed deedId,
         address indexed erc20,
