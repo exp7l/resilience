@@ -131,12 +131,16 @@ contract MarketManager is IMarketManager, Math {
             return 0;
         }
 
-        uint256 share = wdiv(
-            marketToFundsToLiquidity[marketId][fundId],
-            marketLiquidity
+        uint256 allFundDebtUint = uint256(abs(allFundDebt));
+
+        uint256 debtPerLiquidity = wdiv(allFundDebtUint, marketLiquidity);
+
+        uint256 thisFundDebt = wmul(
+            debtPerLiquidity,
+            marketToFundsToLiquidity[marketId][fundId]
         );
 
-        return int256(wmul(share, uint256(allFundDebt)));
+        return -1 * int256(thisFundDebt);
     }
 
     function deposit(uint256 marketId, uint256 amount) external {
@@ -183,5 +187,9 @@ contract MarketManager is IMarketManager, Math {
         }
 
         return false;
+    }
+
+    function abs(int256 x) private pure returns (int256) {
+        return x >= 0 ? x : -x;
     }
 }
