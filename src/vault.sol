@@ -12,28 +12,25 @@ import "./shield.sol";
 
 contract Vault is Auth, Math, Shield {
     RDB rdb;
-    // fundId => ctype => Big Vault; Mirrors the sum of Small Vaults
+    // fundId => ctype
     mapping(uint256 => mapping(address => BVault)) public bvaults;
-    // fundId => ctype => deedId => Small Vault
     mapping(uint256 => mapping(address => mapping(uint256 => SVault)))
         public svaults;
     uint256 public initialDebtShares = 100 * 10**18;
 
     struct BVault {
         uint256 fundId;
-        address ctype; // collateral type
-        uint256 camount; // collateral amount; let's rename this to totalCAmount to avoid confusion.
-        uint256 usd; // rUSD minted;
-        uint256 debtShares; // debt shares accured due to rUSD minting; let's rename this to totalDebtShares to avoid confusion.
+        address ctype;
+        uint256 usd;
+        uint256 totalCAmount;
+        uint256 totalDShares;
     }
-
     struct SVault {
         uint256 fundId;
         address ctype;
         uint256 deedId;
         uint256 camount;
-        uint256 usd; // redundant, can use BVault's
-        uint256 debtShares;
+        uint256 dshares;
     }
 
     modifier own(uint256 _deedId) {
@@ -48,21 +45,18 @@ contract Vault is Auth, Math, Shield {
         uint256 indexed deedId,
         uint256 camount
     );
-
     event Withdraw(
         uint256 indexed fundId,
         address indexed ctype,
         uint256 indexed deedId,
         uint256 camount
     );
-
     event Mint(
         uint256 indexed fundId,
         address indexed ctype,
         uint256 indexed deedId,
         uint256 usd
     );
-
     event Burn(
         uint256 indexed fundId,
         address indexed ctype,
@@ -73,7 +67,6 @@ contract Vault is Auth, Math, Shield {
     constructor(address _rdb) {
         rdb = RDB(_rdb);
         IERC20 _rusd = IERC20(rdb.rusd());
-        // Grant other contracts in the system access to rUSD
         _rusd.approve(rdb.fund(), type(uint256).max);
         _rusd.approve(rdb.marketManager(), type(uint256).max);
     }
@@ -104,7 +97,7 @@ contract Vault is Auth, Math, Shield {
         }
         SVault storage _sv = svaults[_fundId][_ctype][_deedId];
         _sv.camount += _camount;
-        _bv.camount += _camount;
+        _bv.totalCAmount += _camount;
         require(
             IERC20(_ctype).transferFrom(msg.sender, address(this), _camount),
             "ERR_TRANSFER"
@@ -118,7 +111,7 @@ contract Vault is Auth, Math, Shield {
         uint256 _deedId,
         uint256 _camount
     ) external lock own(_deedId) {
-        bvaults[_fundId][_ctype].camount -= _camount;
+        bvaults[_fundId][_ctype].totalCAmount -= _camount;
         svaults[_fundId][_ctype][_deedId].camount -= _camount;
         require(
             _metCratioReq(_fundId, _ctype, _deedId, rdb.targetCratios(_ctype)),
@@ -136,11 +129,16 @@ contract Vault is Auth, Math, Shield {
         address _ctype,
         uint256 _deedId,
         uint256 _cratioReq
-    ) internal returns (bool) {
+    ) internal view returns (bool) {
         SVault storage _svault = svaults[_fundId][_ctype][_deedId];
-        if (_svault.usd == 0) return true;
+        if (_svault.dshares == 0) {
+            return true;
+        }
         uint256 _collateralUSD = rdb.assetUSDValue(_ctype, _svault.camount);
-        uint256 cratioSVault = wdiv(_collateralUSD, _svault.usd);
+        uint256 cratioSVault = wdiv(
+            _collateralUSD,
+            deedDebt(_fundId, _ctype, _deedId)
+        );
         return cratioSVault >= _cratioReq;
     }
 
@@ -149,7 +147,7 @@ contract Vault is Auth, Math, Shield {
         address _ctype,
         uint256 _deedId,
         uint256 _usd
-    ) external lock {
+    ) external lock own(_deedId) {
         require(_fundId != 0, "ERR_ID");
         require(_usd > 0, "ERR_MINT");
 
@@ -160,46 +158,45 @@ contract Vault is Auth, Math, Shield {
 
         if (_bv.fundId == 0) _createVaults(_fundId, _ctype, _deedId);
 
-        if (_bv.debtShares == 0) {
-            _bv.debtShares = initialDebtShares;
-            _sv.debtShares = initialDebtShares;
+        if (_bv.totalDShares == 0) {
+            _bv.totalDShares = initialDebtShares;
+            _sv.dshares = initialDebtShares;
         } else {
             uint256 _vdebt = vaultDebt(_fundId, _ctype);
-            uint256 _diff = wmul(_bv.debtShares, wdiv(_usd, _vdebt));
-            _bv.debtShares += _diff;
-            _sv.debtShares += _diff;
+            uint256 _diff = wmul(_bv.totalDShares, wdiv(_usd, _vdebt));
+            _bv.totalDShares += _diff;
+            _sv.dshares += _diff;
         }
 
         _bv.usd += _usd;
-        _sv.usd += _usd;
 
         require(
             _metCratioReq(_fundId, _ctype, _deedId, rdb.targetCratios(_ctype)),
             "ERR_CRATIO"
         );
         IERC20(rdb.rusd()).mint(address(this), _usd);
+
         emit Mint(_fundId, _ctype, _deedId, _usd);
     }
 
-    // Burns the USD inside the small vault.
     function burn(
         uint256 _fundId,
         address _ctype,
         uint256 _deedId,
-        uint256 _usd
-    ) external lock {
-        require(_usd > 0, "ERR_BURN");
+        uint256 _dshares
+    ) public lock own(_deedId) {
         BVault storage _bv = bvaults[_fundId][_ctype];
         SVault storage _sv = svaults[_fundId][_ctype][_deedId];
-        require(_sv.usd >= _usd, "ERR_BURN");
-        uint256 _vdebt = vaultDebt(_fundId, _ctype);
-        uint256 _diff = wmul(_bv.debtShares, wdiv(_usd, _sv.usd));
-        _bv.debtShares -= _diff;
-        _sv.debtShares -= _diff;
-        _bv.usd -= _usd;
-        _sv.usd -= _usd;
-        IERC20(rdb.rusd()).burn(address(this), _usd);
-        emit Burn(_fundId, _ctype, _deedId, _usd);
+        _bv.totalDShares -= _dshares;
+        _sv.dshares -= _dshares;
+        uint256 _usdReq = debtPerShare(_fundId, _ctype) * _dshares;
+        _bv.usd -= _usdReq;
+        require(
+            IERC20(_ctype).transferFrom(msg.sender, address(this), _usdReq),
+            "ERR_TRANSFER"
+        );
+        IERC20(rdb.rusd()).burn(address(this), _usdReq);
+        emit Burn(_fundId, _ctype, _deedId, _usdReq);
     }
 
     function vaultDebt(uint256 _fundId, address _ctype)
@@ -215,12 +212,32 @@ contract Vault is Auth, Math, Shield {
             uint256 _mid = _fund.backings(_fundId, i);
             _sum += _mm.fundDebt(_mid, _fundId);
         }
-        return _sum > 0 ? 0 : uint256(-1 * _sum);
+        uint256 _sumUSD;
+        for (uint256 i = 0; i < rdb.approvedLength(); i++) {
+            _sumUSD += bvaults[_fundId][rdb.approvedKeys(i)].usd;
+        }
+        BVault storage _bv = bvaults[_fundId][_ctype];
+        uint256 _factor = wdiv(_bv.usd, _sumUSD);
+        uint256 _pSum = _sum >= 0 ? 0 : uint256(-1 * _sum);
+        return wmul(_pSum, _factor);
     }
 
-    function totalDebtShares(uint256 _fundId, address _ctype) external view {}
+    function totalDebtShares(uint256 _fundId, address _ctype)
+        public
+        view
+        returns (uint256)
+    {
+        return bvaults[_fundId][_ctype].totalDShares;
+    }
 
-    function debtPerShare(uint256 _fundId, address _ctype) external view {}
+    function debtPerShare(uint256 _fundId, address _ctype)
+        public
+        view
+        returns (uint256)
+    {
+        uint256 _vaultDebt = vaultDebt(_fundId, _ctype);
+        return wdiv(_vaultDebt, totalDebtShares(_fundId, _ctype));
+    }
 
     function cratio(
         uint256 _fundId,
@@ -232,7 +249,7 @@ contract Vault is Auth, Math, Shield {
         uint256 _fundId,
         address _ctype,
         uint256 _deedId
-    ) external view {}
+    ) public view returns (uint256) {}
 
     /* 
        Will revisit this in-depth. 
@@ -241,36 +258,26 @@ contract Vault is Auth, Math, Shield {
 
        The SIP proposes debt&collateral socialization among small vaults in the same big vault. I think this can be the final backstop, but I think require some more thinking in relationship to other pieces, as well as redemption for collateral at the big vault level.
      */
-    // function liquidatePosition(uint     _fundId,
-    //                            address  _ctype,
-    //                            uint     _deedId
-    //                            uint     _usd)
-    //     external
-    //     lock
-    // {
-    //     require(_metCratioReq(_fundId,
-    //                           _ctype,
-    //                           _deedId,
-    //                           rdb.minCratios(_ctype)),
-    //             "ERR_CRATIO");
-    //     // How much of debt held by this small vault is covered by _usd?
-    //     SVault storage _svault = svaults[_fundId][_ctype][_deedId];
-    //     uint _collateralUSD    = rdb.assetUSDValue(_ctype, _svault.camount);
-    //     require(_collateralUSD > 0, "ERR_EMPTY_SVAULT");
-    //      what are the assets? collateral, debtShares thus totalDebt (usd). This factor is critical
-    //     uint _factor           = wdiv(_usd, _collateralUSD);
-    //     uint _shareDiff        = wmul(_factor, _svault.debtShares);
-    //
-    //     // deduct debt shares from the small vault as it is paid
-    //     _svault.debtShares    -= _shareDiff;
-    //
-    //     // burn USD
-    //     IERC20(rdb.rusd()).burn(address(this), _usd);
-    //
-    //     // transfer collateral to liquidator at discount
-    //     uint _discount    = rdb.positionLiqudationDiscount(_ctype);
-    //     uint _transferAmt = wdiv(WAD, WAD - _discount);
-    //     require(IERC20(_ctype).transfer(msg.sender, _transferAmt),
-    //             "ERR_TRANSFER"_);
-    // }
+    function liquidatePosition(uint256 _fundId, address _ctype, uint256 _deedId, uint256 _usd)
+        external lock
+    {
+        require(!_metCratioReq(_fundId, _ctype, _deedId,  rdb.minCratios(_ctype)), "ERR_CRATIO");
+        // How much of debt held by this small vault is covered by _usd?
+        SVault storage _svault = svaults[_fundId][_ctype][_deedId];
+        uint256 _debt = _svault.dshares * debtPerShare(_fundId, _ctype);
+        uint _factor = wdiv(_usd, _debt);
+        uint _diff = wmul(_factor, _svault.dshares);
+    
+        // deduct debt shares from the small vault as it is paid
+        _svault.dshares -= _diff;
+        bvaults[_fundId][_ctype].totalDShares -= _diff;
+
+        // burn USD
+        burn(_fundId, _ctype, _deedId, _diff);
+    
+        // transfer collateral to liquidator at discount
+        uint _discount    = rdb.positionLiqudationDiscount(_ctype);
+        uint _transferAmt = wdiv(WAD, WAD - _discount);
+        require(IERC20(_ctype).transfer(msg.sender, _transferAmt),  "ERR_TRANSFER");
+    }
 }
