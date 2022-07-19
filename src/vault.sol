@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import "forge-std/Test.sol";
 import "./interfaces/ierc20.sol";
 import "./interfaces/ifund.sol";
 import "./interfaces/ideed.sol";
@@ -10,7 +11,7 @@ import "./auth.sol";
 import "./math.sol";
 import "./shield.sol";
 
-contract Vault is Auth, Math, Shield {
+contract Vault is Auth, Math, Shield, Test {
     RDB rdb;
     // fundId => ctype
     mapping(uint256 => mapping(address => BVault)) public bvaults;
@@ -135,9 +136,13 @@ contract Vault is Auth, Math, Shield {
             return true;
         }
         uint256 _collateralUSD = rdb.assetUSDValue(_ctype, _svault.camount);
+        uint256 _deedDebt = deedDebt(_fundId, _ctype, _deedId);
+        if (_deedDebt == 0) {
+            return true;
+        }
         uint256 cratioSVault = wdiv(
             _collateralUSD,
-            deedDebt(_fundId, _ctype, _deedId)
+            _deedDebt
         );
         return cratioSVault >= _cratioReq;
     }
@@ -216,6 +221,7 @@ contract Vault is Auth, Math, Shield {
         for (uint256 i = 0; i < rdb.approvedLength(); i++) {
             _sumUSD += bvaults[_fundId][rdb.approvedKeys(i)].usd;
         }
+        if (_sum == 0 || _sumUSD == 0) return 0;
         BVault storage _bv = bvaults[_fundId][_ctype];
         uint256 _factor = wdiv(_bv.usd, _sumUSD);
         uint256 _pSum = _sum >= 0 ? 0 : uint256(-1 * _sum);
@@ -236,7 +242,7 @@ contract Vault is Auth, Math, Shield {
         returns (uint256)
     {
         uint256 _vaultDebt = vaultDebt(_fundId, _ctype);
-        return wdiv(_vaultDebt, totalDebtShares(_fundId, _ctype));
+        return _vaultDebt == 0 ? 0: wdiv(_vaultDebt, totalDebtShares(_fundId, _ctype));
     }
 
     function cratio(
@@ -249,7 +255,10 @@ contract Vault is Auth, Math, Shield {
         uint256 _fundId,
         address _ctype,
         uint256 _deedId
-    ) public view returns (uint256) {}
+    ) public view returns (uint256) {
+        SVault storage _sv = svaults[_fundId][_ctype][_deedId];
+        return _sv.dshares * debtPerShare(_fundId, _ctype);
+    }
 
     /* 
        Will revisit this in-depth. 

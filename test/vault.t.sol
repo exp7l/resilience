@@ -41,6 +41,8 @@ contract VaultTest is Test, Math {
         // Give test contract test tokens.
         erc20.mint(type(uint128).max);
         erc20.approve(address(vault), type(uint256).max);
+
+        rdb.approve(address(erc20));
     }
 
     function testDeposit(uint128 _camount) public {
@@ -86,39 +88,38 @@ contract VaultTest is Test, Math {
         assertEq(_camountBVault, _camount - _withdrawal);
     }
 
-    // function testMint(uint128 _usdAmount) public {
-    //     vm.assume(_usdAmount != 0);
-    //     vm.mockCall(
-    //         address(rdb),
-    //         abi.encodeWithSelector(rdb.assetUSDValue.selector),
-    //         abi.encode(WAD)
-    //     );
-    //     vm.mockCall(
-    //         address(rdb),
-    //         abi.encodeWithSelector(rdb.targetCratios.selector),
-    //         abi.encode(0)
-    //     );
+    function testMint(uint128 _usdAmount) public {
+        vm.assume(_usdAmount != 0);
+        vm.mockCall(
+            address(rdb),
+            abi.encodeWithSelector(rdb.assetUSDValue.selector),
+            abi.encode(WAD)
+        );
+        vm.mockCall(
+            address(rdb),
+            abi.encodeWithSelector(rdb.targetCratios.selector),
+            abi.encode(0)
+        );
 
-    //     vault.deposit(fundId, address(erc20), deedId, type(uint128).max);
-    //     vault.mint(fundId, address(erc20), deedId, _usdAmount);
-    //     (, , , , uint256 _svUSDAmount, uint256 _svDebtShares) = vault.svaults(
-    //         fundId,
-    //         address(erc20),
-    //         deedId
-    //     );
-    //     assertEq(_svDebtShares, vault.initialDebtShares());
-    //     assertEq(_svUSDAmount, _usdAmount);
+        vault.deposit(fundId, address(erc20), deedId, type(uint128).max);
+        vault.mint(fundId, address(erc20), deedId, _usdAmount);
 
-    //     (, , , uint256 _bvUSDAmount, uint256 _bvDebtShares) = vault.bvaults(
-    //         fundId,
-    //         address(erc20)
-    //     );
+        (, , , , uint256 _ds) = vault.svaults(
+            fundId,
+            address(erc20),
+            deedId
+        );
+        assertEq(_ds, vault.initialDebtShares());
 
-    //     assertEq(_bvDebtShares, vault.initialDebtShares());
-    //     assertEq(_bvUSDAmount, _usdAmount);
+        (, , uint256 _usdSum, , uint256 _dsSum) = vault.bvaults(
+            fundId,
+            address(erc20)
+        );
 
-    //     assertEq(rusd.totalSupply(), _usdAmount);
-    // }
+        assertEq(_dsSum, vault.initialDebtShares());
+        assertEq(_usdSum, _usdAmount);
+        assertEq(rusd.totalSupply(), _usdAmount);
+    }
 
     // function testMintTwice(uint128 _usdAmount) public {
     //     vm.assume(_usdAmount != 0 && _usdAmount != 1);
