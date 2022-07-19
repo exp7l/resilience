@@ -126,44 +126,36 @@ contract VaultTest is Test, Math {
         assertEq(rusd.totalSupply(), _usdAmount);
     }
 
-    // function testBurn(uint128 _usdAmount) public {
-    //     vm.assume(_usdAmount != 0 && _usdAmount != 1);
-    //     vm.mockCall(
-    //         address(rdb),
-    //         abi.encodeWithSelector(rdb.assetUSDValue.selector),
-    //         abi.encode(WAD)
-    //     );
-    //     vm.mockCall(
-    //         address(rdb),
-    //         abi.encodeWithSelector(rdb.targetCratios.selector),
-    //         abi.encode(0)
-    //     );
+    function testBurn() public {
+        vm.mockCall(
+            address(rdb),
+            abi.encodeWithSelector(rdb.assetUSDValue.selector),
+            abi.encode(WAD)
+        );
+        vm.mockCall(
+            address(rdb),
+            abi.encodeWithSelector(rdb.targetCratios.selector),
+            abi.encode(0)
+        );
 
-    //     uint128 _deposit = type(uint128).max;
-    //     vault.deposit(fundId, address(erc20), deedId, _deposit);
-    //     vault.mint(fundId, address(erc20), deedId, _usdAmount);
-    //     uint256 _divisor = _usdAmount % 2 == 0 ? 2 : 1;
-    //     vault.burn(fundId, address(erc20), deedId, _usdAmount / _divisor);
+        uint128 _deposit = type(uint128).max;
+        vault.deposit(fundId, address(erc20), deedId, _deposit);
+        vault.mint(fundId, address(erc20), deedId, WAD);
+        vault.burn(fundId, address(erc20), deedId, vault.initialDebtShares());
+        (, , , , uint256 _ds) = vault.svaults(
+            fundId,
+            address(erc20),
+            deedId
+        );
+        assertEq(_ds, 0);
 
-    //     (, , , , uint256 _svUSDAmount, uint256 _svDebtShares) = vault.svaults(
-    //         fundId,
-    //         address(erc20),
-    //         deedId
-    //     );
-    //     (, , , uint256 _bvUSDAmount, uint256 _bvDebtShares) = vault.bvaults(
-    //         fundId,
-    //         address(erc20)
-    //     );
+        (, , , , uint256 _dsSum) = vault.bvaults(
+            fundId,
+            address(erc20)
+        );
 
-    //     uint256 _init = vault.initialDebtShares();
-    //     assertEq(_svDebtShares, _init - _init / _divisor);
-    //     assertEq(_svUSDAmount, _usdAmount - _usdAmount / _divisor);
-
-    //     assertEq(_bvDebtShares, _init - _init / _divisor);
-    //     assertEq(_bvUSDAmount, _usdAmount - _usdAmount / _divisor);
-
-    //     assertEq(rusd.totalSupply(), _usdAmount - _usdAmount / _divisor);
-    // }
+        assertEq(_dsSum, 0);
+    }
 
     // function testLiqudation(uint128 _liquidationUSDAmt, uint128 _svaultUSDAmt)
     //     public
