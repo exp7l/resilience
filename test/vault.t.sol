@@ -79,7 +79,7 @@ contract VaultTest is Test, Math {
             deedId
         );
         assertEq(_camountSVault, _camount - _withdrawal);
-        (, , uint256 _camountBVault, , ) = vault.bvaults(
+        (, , , uint256 _camountBVault, ) = vault.bvaults(
             fundId,
             address(erc20)
         );
