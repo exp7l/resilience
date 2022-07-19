@@ -7,6 +7,7 @@ import "../src/deed.sol";
 import "../src/fund.sol";
 import "../src/vault.sol";
 import "../src/math.sol";
+import "../src/marketmanager.sol";
 
 contract VaultTest is Test, Math {
     RDB rdb;
@@ -15,6 +16,7 @@ contract VaultTest is Test, Math {
     Fund fund;
     uint256 fundId;
     Vault vault;
+    MarketManager marketmanager;
     DSToken erc20;
     DSToken rusd;
 
@@ -41,6 +43,9 @@ contract VaultTest is Test, Math {
         // Give test contract test tokens.
         erc20.mint(type(uint128).max);
         erc20.approve(address(vault), type(uint256).max);
+
+        marketmanager = new MarketManager(address(erc20), address(fund), address(rdb));
+        rdb.setMarketManager(address(marketmanager));
 
         rdb.approve(address(erc20));
     }
@@ -121,82 +126,44 @@ contract VaultTest is Test, Math {
         assertEq(rusd.totalSupply(), _usdAmount);
     }
 
-    // function testMintTwice(uint128 _usdAmount) public {
-    //     vm.assume(_usdAmount != 0 && _usdAmount != 1);
-    //     vm.mockCall(
-    //         address(rdb),
-    //         abi.encodeWithSelector(rdb.assetUSDValue.selector),
-    //         abi.encode(WAD)
-    //     );
-    //     vm.mockCall(
-    //         address(rdb),
-    //         abi.encodeWithSelector(rdb.targetCratios.selector),
-    //         abi.encode(0)
-    //     );
+    function testBurn(uint128 _usdAmount) public {
+        vm.assume(_usdAmount != 0 && _usdAmount != 1);
+        vm.mockCall(
+            address(rdb),
+            abi.encodeWithSelector(rdb.assetUSDValue.selector),
+            abi.encode(WAD)
+        );
+        vm.mockCall(
+            address(rdb),
+            abi.encodeWithSelector(rdb.targetCratios.selector),
+            abi.encode(0)
+        );
 
-    //     vault.deposit(fundId, address(erc20), deedId, type(uint128).max);
-    //     vault.mint(fundId, address(erc20), deedId, _usdAmount);
-    //     vault.mint(fundId, address(erc20), deedId, _usdAmount);
+        uint128 _deposit = type(uint128).max;
+        vault.deposit(fundId, address(erc20), deedId, _deposit);
+        vault.mint(fundId, address(erc20), deedId, _usdAmount);
+        uint256 _divisor = _usdAmount % 2 == 0 ? 2 : 1;
+        vault.burn(fundId, address(erc20), deedId, _usdAmount / _divisor);
 
-    //     (, , , , uint256 _svUSDAmount, uint256 _svDebtShares) = vault.svaults(
-    //         fundId,
-    //         address(erc20),
-    //         deedId
-    //     );
+        (, , , , uint256 _svUSDAmount, uint256 _svDebtShares) = vault.svaults(
+            fundId,
+            address(erc20),
+            deedId
+        );
+        (, , , uint256 _bvUSDAmount, uint256 _bvDebtShares) = vault.bvaults(
+            fundId,
+            address(erc20)
+        );
 
-    //     assertEq(_svDebtShares / 2, vault.initialDebtShares());
-    //     assertEq(_svUSDAmount / 2, _usdAmount);
+        uint256 _init = vault.initialDebtShares();
+        assertEq(_svDebtShares, _init - _init / _divisor);
+        assertEq(_svUSDAmount, _usdAmount - _usdAmount / _divisor);
 
-    //     (, , , uint256 _bvUSDAmount, uint256 _bvDebtShares) = vault.bvaults(
-    //         fundId,
-    //         address(erc20)
-    //     );
+        assertEq(_bvDebtShares, _init - _init / _divisor);
+        assertEq(_bvUSDAmount, _usdAmount - _usdAmount / _divisor);
 
-    //     assertEq(_bvDebtShares / 2, vault.initialDebtShares());
-    //     assertEq(_bvUSDAmount / 2, _usdAmount);
-
-    //     assertEq(rusd.totalSupply() / 2, _usdAmount);
-    //     // TODO: What does state change not apply after this point?
-    // }
-
-    // function testBurn(uint128 _usdAmount) public {
-    //     vm.assume(_usdAmount != 0 && _usdAmount != 1);
-    //     vm.mockCall(
-    //         address(rdb),
-    //         abi.encodeWithSelector(rdb.assetUSDValue.selector),
-    //         abi.encode(WAD)
-    //     );
-    //     vm.mockCall(
-    //         address(rdb),
-    //         abi.encodeWithSelector(rdb.targetCratios.selector),
-    //         abi.encode(0)
-    //     );
-
-    //     uint128 _deposit = type(uint128).max;
-    //     vault.deposit(fundId, address(erc20), deedId, _deposit);
-    //     vault.mint(fundId, address(erc20), deedId, _usdAmount);
-    //     uint256 _divisor = _usdAmount % 2 == 0 ? 2 : 1;
-    //     vault.burn(fundId, address(erc20), deedId, _usdAmount / _divisor);
-
-    //     (, , , , uint256 _svUSDAmount, uint256 _svDebtShares) = vault.svaults(
-    //         fundId,
-    //         address(erc20),
-    //         deedId
-    //     );
-    //     (, , , uint256 _bvUSDAmount, uint256 _bvDebtShares) = vault.bvaults(
-    //         fundId,
-    //         address(erc20)
-    //     );
-
-    //     uint256 _init = vault.initialDebtShares();
-    //     assertEq(_svDebtShares, _init - _init / _divisor);
-    //     assertEq(_svUSDAmount, _usdAmount - _usdAmount / _divisor);
-
-    //     assertEq(_bvDebtShares, _init - _init / _divisor);
-    //     assertEq(_bvUSDAmount, _usdAmount - _usdAmount / _divisor);
-
-    //     assertEq(rusd.totalSupply(), _usdAmount - _usdAmount / _divisor);
-    // }
+        assertEq(rusd.totalSupply(), _usdAmount - _usdAmount / _divisor);
+    }
 
     // function testLiqudation(uint128 _liquidationUSDAmt, uint128 _svaultUSDAmt)
     //     public

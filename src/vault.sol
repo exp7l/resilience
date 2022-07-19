@@ -140,10 +140,7 @@ contract Vault is Auth, Math, Shield, Test {
         if (_deedDebt == 0) {
             return true;
         }
-        uint256 cratioSVault = wdiv(
-            _collateralUSD,
-            _deedDebt
-        );
+        uint256 cratioSVault = wdiv(_collateralUSD, _deedDebt);
         return cratioSVault >= _cratioReq;
     }
 
@@ -168,7 +165,9 @@ contract Vault is Auth, Math, Shield, Test {
             _sv.dshares = initialDebtShares;
         } else {
             uint256 _vdebt = vaultDebt(_fundId, _ctype);
+
             uint256 _diff = wmul(_bv.totalDShares, wdiv(_usd, _vdebt));
+
             _bv.totalDShares += _diff;
             _sv.dshares += _diff;
         }
@@ -212,16 +211,23 @@ contract Vault is Auth, Math, Shield, Test {
         int256 _sum;
         IMarketManager _mm = IMarketManager(rdb.marketManager());
         IFund _fund = IFund(rdb.fund());
+
         uint256 _len = _fund.backingLength(_fundId);
         for (uint256 i = 0; i < _len; i++) {
             uint256 _mid = _fund.backings(_fundId, i);
+
             _sum += _mm.fundDebt(_mid, _fundId);
         }
+
+        if (_sum == 0) return 0;
+
         uint256 _sumUSD;
         for (uint256 i = 0; i < rdb.approvedLength(); i++) {
             _sumUSD += bvaults[_fundId][rdb.approvedKeys(i)].usd;
         }
-        if (_sum == 0 || _sumUSD == 0) return 0;
+
+        if (_sumUSD == 0) return 0;
+
         BVault storage _bv = bvaults[_fundId][_ctype];
         uint256 _factor = wdiv(_bv.usd, _sumUSD);
         uint256 _pSum = _sum >= 0 ? 0 : uint256(-1 * _sum);
@@ -242,7 +248,10 @@ contract Vault is Auth, Math, Shield, Test {
         returns (uint256)
     {
         uint256 _vaultDebt = vaultDebt(_fundId, _ctype);
-        return _vaultDebt == 0 ? 0: wdiv(_vaultDebt, totalDebtShares(_fundId, _ctype));
+        return
+            _vaultDebt == 0
+                ? 0
+                : wdiv(_vaultDebt, totalDebtShares(_fundId, _ctype));
     }
 
     function cratio(
@@ -267,26 +276,35 @@ contract Vault is Auth, Math, Shield, Test {
 
        The SIP proposes debt&collateral socialization among small vaults in the same big vault. I think this can be the final backstop, but I think require some more thinking in relationship to other pieces, as well as redemption for collateral at the big vault level.
      */
-    function liquidatePosition(uint256 _fundId, address _ctype, uint256 _deedId, uint256 _usd)
-        external lock
-    {
-        require(!_metCratioReq(_fundId, _ctype, _deedId,  rdb.minCratios(_ctype)), "ERR_CRATIO");
+    function liquidatePosition(
+        uint256 _fundId,
+        address _ctype,
+        uint256 _deedId,
+        uint256 _usd
+    ) external lock {
+        require(
+            !_metCratioReq(_fundId, _ctype, _deedId, rdb.minCratios(_ctype)),
+            "ERR_CRATIO"
+        );
         // How much of debt held by this small vault is covered by _usd?
         SVault storage _svault = svaults[_fundId][_ctype][_deedId];
         uint256 _debt = _svault.dshares * debtPerShare(_fundId, _ctype);
-        uint _factor = wdiv(_usd, _debt);
-        uint _diff = wmul(_factor, _svault.dshares);
-    
+        uint256 _factor = wdiv(_usd, _debt);
+        uint256 _diff = wmul(_factor, _svault.dshares);
+
         // deduct debt shares from the small vault as it is paid
         _svault.dshares -= _diff;
         bvaults[_fundId][_ctype].totalDShares -= _diff;
 
         // burn USD
         burn(_fundId, _ctype, _deedId, _diff);
-    
+
         // transfer collateral to liquidator at discount
-        uint _discount    = rdb.positionLiqudationDiscount(_ctype);
-        uint _transferAmt = wdiv(WAD, WAD - _discount);
-        require(IERC20(_ctype).transfer(msg.sender, _transferAmt),  "ERR_TRANSFER");
+        uint256 _discount = rdb.positionLiqudationDiscount(_ctype);
+        uint256 _transferAmt = wdiv(WAD, WAD - _discount);
+        require(
+            IERC20(_ctype).transfer(msg.sender, _transferAmt),
+            "ERR_TRANSFER"
+        );
     }
 }
