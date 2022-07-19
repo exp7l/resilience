@@ -20,6 +20,8 @@ contract RDB is Auth {
     mapping(address => uint256) public minCratios;
     // Approved asset types.
     mapping(address => bool) public approved;
+    uint256 public approvedLength;
+    address[] public approvedKeys;
     // erc20 => oracle
     mapping(address => address) public oracles;
     // erc20 => liqudation discount in decimal in WAD eg. 0.3 * WAD
@@ -27,6 +29,8 @@ contract RDB is Auth {
 
     function approve(address _erc20) external auth {
         approved[_erc20] = true;
+        approvedLength++;
+        approvedKeys.push(_erc20);
     }
 
     function disapprove(address _erc20) external auth {
